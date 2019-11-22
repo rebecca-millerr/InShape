@@ -1,0 +1,27 @@
+.NavLink {
+    display: inline;
+    margin: 4.5%;
+}
+
+.HomeLink, .MealsLink, .ExercisesLink, .LogInOutLink {
+    font-size: 1.4em;
+    text-decoration: none;
+    
+}
+
+.HomeLink, .MealsLink, .ExercisesLink {
+    width: 10%;
+    color: #000;
+}
+
+.LogInOutLink {
+    position: absolute;
+    top: -10%;
+    right: 4%;
+    width: auto;
+    padding: 1.2% 5%;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #736096;
+    color: #fff;
+}
