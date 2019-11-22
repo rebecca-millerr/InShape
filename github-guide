@@ -1,12 +1,15 @@
-
+WHEN YOU WANT TO CODE AND UPLOAD
 
 git branch <branch-name> 
 	creates a branch with an exact copy of master
+	
+	
+git branch
+	checks which branch you're currently in
 
 
 git checkout <branch-name>
-	goes ot that branch
-
+	goes to that branch
 
 
 git add -A
@@ -18,27 +21,11 @@ git commit -m <message>
 
 
 git push origin <branch-name>
-	pushes everything that you have in branch locally to that branch in remote
-	(github)
+	pushes everything that you have in branch locally to that branch in remote (github)
 
-
-branch --> copied everything from master
-local rebeca-miller --> master copy
-remote rebeca-miller --> empty
-
-git push:
-remote rebeca-miller --> master copy
 
 ---------
-git pull origin <branch-name>
+WHEN YOU WANT TO DOWNLOAD CODE FROM GITHUB TO LOCAL (DO THIS EVERY TIME BEFORE YOU START CODING)
 
-git clone https://nfklbx;kv 
-
-
-
-
-git remote add origin <url-name>
- --> url
-can change origin with another name
-
-
+git clone https://github.com/rebecca-millerr/InShape.git
+	you can find this URL on the big green button at the repo home too
