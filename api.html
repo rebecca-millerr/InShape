@@ -36,6 +36,7 @@
         var percentFat = [];
         var percentProtein = [];
 
+
         $.getJSON("https://api.spoonacular.com/recipes/mealplans/generate?apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day&targetCalories=" +
                  calories + "&diet=" + diet + "&exclude" + allergies, function(data){
         
@@ -56,10 +57,11 @@
                 
                 $.getJSON(" https://api.spoonacular.com/recipes/"+ data.meals[i].id +"/information?apiKey=048a26721a2a416a944e45becc2d10aa&includeNutrition=true", 
                 function(recipeinfo){
+                    console.log(recipeinfo);
                     percentCarbs[i] = recipeinfo.nutrition.caloricBreakdown.percentCarbs;       // Each of the arrays hold integer values of the percentages of macros
                     percentFat[i] = recipeinfo.nutrition.caloricBreakdown.percentFat;           // Index values correspond to different meals. To get macro percentage 
                     percentProtein[i] = recipeinfo.nutrition.caloricBreakdown.percentProtein;   // for each food, use same index number for each array.
-
+                    ingredients[i] = recipeinfo.nutrition.
                     
                 });
 
