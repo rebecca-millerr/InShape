@@ -35,6 +35,7 @@
         var percentCarbs = [];
         var percentFat = [];
         var percentProtein = [];
+        
         $.getJSON("https://api.spoonacular.com/recipes/mealplans/generate?apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day&targetCalories=" +
                  calories + "&diet=" + diet + "&exclude" + allergies, function(data){
         
