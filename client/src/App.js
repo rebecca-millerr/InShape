@@ -13,16 +13,16 @@ import './App.css';
 
 class App extends React.Component {
   // TODO?
-  // constructor(props) {
-  //   super(props)
-  //   this.callBackendAPI = this.callBackendAPI.bind(this)
-  //   this.state = {
-  //     data: null, // IDK
-  //     loggedIn : true // TODO : this can change
-  //   }
+  constructor(props) {
+    super(props)
+    /*this.callBackendAPI = this.callBackendAPI.bind(this)*/
+    this.state = {
+      data: null, // IDK
+      loggedIn : true // TODO : this can change
+    }
 
-  //   this.logInOut = this.logInOut.bind(this);
-  // }
+    this.logInOut = this.logInOut.bind(this);
+  }
 
   // // TODO?
   // // TODO: Fetch in react component tree
