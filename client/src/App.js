@@ -7,7 +7,9 @@ import {
 
 import NavBar from './NavBar';
 import Home from './Home';
+import SignUp from './SignUp';
 import Meals from './Meals';
+import Contact from './Contact';
 
 import './App.css';
 
@@ -67,9 +69,9 @@ class App extends React.Component {
       }, 
       {
         num : 3,
-        text : 'Exercises',
-        url : '#',
-        className : 'ExercisesLink'
+        text : 'Contact',
+        url : '/contact',
+        className : 'ContactLink'
       },
       {
         num : 4,
@@ -96,7 +98,9 @@ class App extends React.Component {
           <Router>
             <Switch>
               <Route exact path = "/" component = {Home} />
+              <Route path = "/sign-up" component = {SignUp} />
               <Route path = "/meals" component = {Meals} />
+              <Route path = "/contact" component = {Contact} />
             </Switch>
           </Router>
       </div>
