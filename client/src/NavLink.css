@@ -3,13 +3,13 @@
     margin: 4.5%;
 }
 
-.HomeLink, .MealsLink, .ExercisesLink, .LogInOutLink {
+.HomeLink, .MealsLink, .ContactLink, .LogInOutLink {
     font-size: 1.4em;
     text-decoration: none;
     
 }
 
-.HomeLink, .MealsLink, .ExercisesLink {
+.HomeLink, .MealsLink, .ContactLink {
     width: 10%;
     color: #000;
 }
