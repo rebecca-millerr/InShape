@@ -1,4 +1,4 @@
-.Contact_splash {
+.ContactInformation {
 	height: 30%;
     width: 60%;
     margin: 8% auto;
@@ -8,4 +8,14 @@
     color: #ededed;
     font-size: 1.4em;
     line-height: 1.5em;
+}
+
+.ContactUs {
+	font-size: 2em;
+	text-align: center;
+}
+
+.Information {
+	font-size: 1.4em;
+	text-align: center; 
 }

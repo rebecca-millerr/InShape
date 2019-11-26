@@ -1,4 +1,4 @@
-.MissionStatement {
+.WhoWeAre {
     height: 30%;
     width: 60%;
     margin: 8% auto;
@@ -10,7 +10,14 @@
     line-height: 1.5em;
 }
 
+.WhoWeAreHeading {
 
-.MissionHeading {
-    
+}
+
+.WhoWeAreNames {
+	font-style: italic;
+}
+
+.WhoWeAreText {
+
 }
