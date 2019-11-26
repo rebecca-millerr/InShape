@@ -1,4 +1,4 @@
-.Splash {
+.MissionStatement {
     height: 30%;
     width: 60%;
     margin: 8% auto;
@@ -8,4 +8,9 @@
     color: #ededed;
     font-size: 1.4em;
     line-height: 1.5em;
+}
+
+
+.MissionHeading {
+    
 }

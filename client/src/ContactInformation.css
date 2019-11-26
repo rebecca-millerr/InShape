@@ -1,0 +1,21 @@
+.ContactInformation {
+	height: 30%;
+    width: 60%;
+    margin: 8% auto;
+    background-color: #465d80;
+    padding: 5%;
+    border-radius: 20px;
+    color: #ededed;
+    font-size: 1.4em;
+    line-height: 1.5em;
+}
+
+.ContactUs {
+	font-size: 2em;
+	text-align: center;
+}
+
+.Information {
+	font-size: 1.4em;
+	text-align: center; 
+}

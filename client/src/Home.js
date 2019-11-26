@@ -1,6 +1,9 @@
 import React from 'react';
 
-import Splash from './Splash';
+import MissionStatement from './MissionStatement';
+import OurMission from './OurMission';
+import WhoWeAre from './WhoWeAre';
+import Testimonials from './Testimonials';
 
 import './Home.css';
 
@@ -12,7 +15,10 @@ class Home extends React.Component {
   render() {
     return(
       <div className = "Landing">
-        <Splash />
+        <MissionStatement />
+        <OurMission />
+        <WhoWeAre />
+        <Testimonials />
       </div>
     )
   }
