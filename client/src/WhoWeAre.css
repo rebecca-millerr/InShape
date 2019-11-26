@@ -11,13 +11,25 @@
 }
 
 .WhoWeAreHeading {
-
+    font-family: Bradley Hand, cursive;
+    font-size: 2em;
 }
 
 .WhoWeAreNames {
 	font-style: italic;
+    font-weight: bold;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
 }
 
-.WhoWeAreText {
+.WhoWeAreText1 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+    padding-top: 4%;
+}
 
+.WhoWeAreText2 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+    padding-top: 4%;
 }
