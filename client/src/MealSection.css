@@ -4,7 +4,8 @@
 
 .Left, .Right {
     height: auto;
-    width: 40%;
+    box-sizing: border-box;
+    width: 20%;
     margin: 3%;
     padding: 2%;
     border-radius: 20px;

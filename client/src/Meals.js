@@ -10,82 +10,137 @@ class Meals extends React.Component {
   constructor() {
     super();
     this.state = {
-      loading : false, // TODO: implement loading function
-      meals : null,
-      recipes : [null, null, null]
+      loading   : false,
+      data     : null,
+      recipes   : [],
+      calories  : null,
+      diet      : null,
+      allergies : null,
+      food      : [null, null, null]
     };
 
     this.fetchMeals = this.fetchMeals.bind(this);
     this.fetchRecipes = this.fetchRecipes.bind(this);
+    this.makeFood = this.makeFood.bind(this);
   }
 
   componentDidMount() {
 
-    // API parameters
-    const calories  = '1800';     // TODO: get from database
-    const diet      = 'none';     // TODO: get from database
-    const allergies = 'peanut';   // TODO: get from database
+    console.log('component did mount');
+    this.setState ({
+      loading : true
+    });
 
-    this.fetchRecipes(calories, diet, allergies);
+    // TODO: make these state, update here
+    // API parameters
+    this.setState({
+      calories : 1800,
+      diet : 'none',
+      allergies : 'peanut',
+    }, this.fetchMeals);
+    // TODO: get from database
+    // TODO: get from database
+    // TODO: get from database, array
 
     // loading : false,
+    this.setState({
+      loading : false
+    });
   }
 
-  async fetchMeals(calories, diet, allergies) {
-    // this.setState({ loading : true });
-    // await fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
-    //       + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
-    //       + "&targetCalories=" + calories + "&diet=" + diet 
-    //       + "&exclude" + allergies)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.setState({
-    //       meals : data
-    //     });
-    //   });
+  fetchMeals() {
+    console.log('fetch meals');
+
+    fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
+          + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
+          + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
+          + "&exclude" + this.state.allergies)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data : data
+        }, this.fetchRecipes);
+      });
   }
 
-  async fetchRecipes(calories, diet, allergies) {
-    // await this.fetchMeals(calories, diet, allergies);
-    // for ( let i = 0; i < 3; i++ ) {
-    //   await fetch("https://api.spoonacular.com/recipes/" 
-    //               + this.state.meals.meals[i].id 
-    //               + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
-    //               + "&includeNutrition=true")
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       let tempRecipes = this.state.recipes;
-    //       tempRecipes[i] = data;
-    //       this.setState({
-    //         recipes : tempRecipes
-    //       })
-    //     });  
-    // }
+  async fetchRecipes() {
+    console.log('fetch recipes');
+
+    //await this.fetchMeals(this.state.calories, this.state.diet, this.state.allergies);
+    console.log(this.state.recipes)
+    for ( let i = 0; i < 3; i++ ) {
+      await fetch("https://api.spoonacular.com/recipes/" 
+                  + this.state.data.meals[i].id 
+                  + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
+                  + "&includeNutrition=true")
+        .then(response => response.json())
+        .then(data => {
+          console.log(this.state.recipes)
+          let tempRecipes = this.state.recipes.slice(0);
+          tempRecipes.push(data);
+          console.log(tempRecipes)
+          console.log(this.state.recipes)
+          if ( this.state.recipes !== tempRecipes ) {
+            console.log('changing recipes')
+            this.setState({
+              recipes : tempRecipes
+            }, this.makeFood);
+          }
+        });  
+    }
+  }
+
+  makeFood() {
+    console.log('makeFood');
+
+    const totalCals    = this.state.data.nutrients.calories;
+    const totalCarbs   = this.state.data.nutrients.carbohydrates;
+    const totalFat     = this.state.data.nutrients.fat;
+    const totalProtein = this.state.data.nutrients.protein;
+
+    for ( let i = 0; i < 3; i++ ) {
+      let tempFood = this.state.food.slice(0);
+      let oneFood = {
+        id             : i + 1,
+        name           : this.state.data.meals[i].title,
+        prepTime       : this.state.data.meals[i].readyInMinutes,
+        percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
+        percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
+        percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
+        ingredients    : this.state.recipes[i].nutrition.ingredients,
+        instructions   : this.state.recipes[i].instructions
+      }
+
+      tempFood[i] = oneFood;
+
+      if ( this.state.food !== tempFood ) {
+        this.setState({
+          food : tempFood
+        });
+      }
+      
+    }
   }
 
   render() {
 
-    if ( this.state.meals ) {
-      console.log(this.state.meals);
-      const totalCals    = this.state.meals.nutrients.calories;
-      const totalCarbs   = this.state.meals.nutrients.carbohydrates;
-      const totalFat     = this.state.meals.nutrients.fat;
-      const totalProtein = this.state.meals.nutrients.protein;
-      let foods          = new Array(3);
-
-      for ( let i = 0; i < 3; i++ ) {
-        foods[i] = {
-          name           : this.state.meals.meals[i].title,
-          prepTime       : this.state.meals.meals[i].readyInMinutes,
-          percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
-          percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
-          percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
-          ingredients    : this.state.recipes[i].nutrition.ingredients,
-          instructions   : this.state.recipes[i].instructions
-        }
-      }
+    if (! this.state.meals || ! this.state.recipes[0] || ! this.state.recipes[1] || ! this.state.recipes[2]) {
+      console.log('empty render');
+      return (
+        <div>
+          Loading...
+        </div>
+      )
     }
+    console.log('nonempty render');
+    
 
+    const mealSections = this.state.food.map(food => 
+      <MealSection
+        key = {food.id}
+        data = {food}
+      />
+    );
     return(
       <div className = "Meals">
         <p className = "CallToAction">
@@ -94,33 +149,32 @@ class Meals extends React.Component {
         <p className = "MealsSubtitle">
           You're limited to 3 refreshes per day. Enjoy!
         </p>
-        <MealSection 
+        {mealSections}
+      </div>
+    )
+  }
+}
+
+/*<MealSection 
           side = "left" 
           color = "#b6c7e3" 
           title = "Breakfast" 
           url = "#" 
+          data = {this.state.foods[0]}
         />
         <MealSection 
           side = "right" 
           color = "#bdaddb" 
           title = "Lunch" 
           url = "#" 
+          data = {this.state.foods[1]}
         />
         <MealSection 
           side = "left" 
           color = "#cdc5db" 
           title = "Snack" 
           url = "#" 
-        />
-        <MealSection 
-          side = "right" 
-          color = "#bbcfed" 
-          title = "Dinner" 
-          url = "#" 
-        />
-      </div>
-    )
-  }
-}
+          data = {this.state.foods[2]}
+        />*/
 
 export default Meals;
