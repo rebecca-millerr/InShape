@@ -53,42 +53,51 @@ class App extends React.Component {
 
   render() {
 
-    const navItems = new Array();
+    const navItems = new Array(5);
     if ( this.state.loggedIn ) {
-      navItems.push({
+      navItems[0] = ({
         num : 1,
         text : 'Home',
         url : '/',
         className : 'HomeLink'
-      }, 
-      {
+      });
+      navItems[1] = ({
         num: 2,
         text : 'Meals',
         url : '/meals',
         className : 'MealsLink'
-      }, 
-      {
+      }); 
+      navItems[2] = ({
         num : 3,
+        text: 'Exercises',
+        url : '#', // TODO
+        className : 'ExercisesLink'
+      });
+      navItems[3] = ({
+        num : 4,
         text : 'Contact',
         url : '/contact',
         className : 'ContactLink'
-      },
-      {
-        num : 4,
-        text : 'Log' + '\u00A0' + 'Out',
+      });
+      navItems[4] = ({
+        num : 5,
+        text : 'Log Out'/*'Log' + '\u00A0' + 'Out'*/,
         url : '#',
         className : 'LogInOutLink'
       });
     }
     else {
-      navItems.push({
-        num : 4,
+      for ( let i = 0; i < 4; i++ ) {
+        navItems[i] = null;
+      }
+      navItems[4] = ({
+        num : 5,
         text: 'Log' + '\u00A0' + 'In',
         url : '#',
-        className : 'LogInOutLink'
+        className : 'LogInOutLink',
+        dropdown: true
       });
     }
-    console.log(navItems);
 
     return (
       <div>
