@@ -57,7 +57,7 @@ class App extends React.Component {
     if ( this.state.loggedIn ) {
       navItems[0] = ({
         num : 1,
-        text : 'Home',
+        text : 'InShape',
         url : '/',
         className : 'HomeLink'
       });

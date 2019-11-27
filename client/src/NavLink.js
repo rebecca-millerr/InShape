@@ -38,7 +38,7 @@ class NavLink extends React.Component {
           {this.props.text}
         </a>
         <div>
-          <a href = "#" className = {dropClass} style = {style}>
+          <a href = "/sign-up" className = {dropClass} style = {style}>
             Sign Up
           </a>
         </div>
