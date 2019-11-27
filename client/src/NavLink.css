@@ -1,27 +1,87 @@
 .NavLink {
-    display: inline;
-    margin: 4.5%;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 20%;
 }
 
-.HomeLink, .MealsLink, .ContactLink, .LogInOutLink {
+.HomeLink, .MealsLink, .ExercisesLink, .ContactLink, .LogInOutLink {
     font-size: 1.4em;
     text-decoration: none;
-    
+    box-sizing: border-box;
 }
 
-.HomeLink, .MealsLink, .ContactLink {
-    width: 10%;
+.HomeLink, .MealsLink, .ExercisesLink, .ContactLink {
     color: #000;
+    transition: .3s;
+}
+
+.HomeLink:hover, .MealsLink:hover, .ExercisesLink:hover, .ContactLink:hover {
+    color: #888;
 }
 
 .LogInOutLink {
     position: absolute;
-    top: -10%;
+    top: 0.5em;
     right: 4%;
-    width: auto;
-    padding: 1.2% 5%;
-    text-align: center;
+    padding: 1.5% 5%;
     border-radius: 10px;
     background-color: #736096;
     color: #fff;
+    transition: .5s;
+}
+
+.LogInOutLink:hover {
+    background-color: #cdc5db;
+    color: #000;
+} 
+
+.Dropdown {
+    position: absolute;
+    top: 3.4em;
+    right: 4%;
+    padding: 1.5% 5%;
+    border-radius: 10px;
+    background-color: #736096;
+    color: #fff;
+}
+
+@media only screen and (max-width: 790px) {
+    .HomeLink, .MealsLink, .ExercisesLink, .ContactLink, .LogInOutLink {
+        font-size: 1em;
+    }
+
+    .LogInOutLink {
+        top: 1em;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    .HomeLink, .MealsLink, .ExercisesLink, .ContactLink, .LogInOutLink {
+        font-size: 0.8em;
+        margin: ;
+    }
+
+    .LogInOutLink {
+        top: 1.3em;
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    .HomeLink, .MealsLink, .ExercisesLink, .ContactLink, .LogInOutLink {
+        font-size: 0.6em;
+    }
+
+    .LogInOutLink {
+        top: 2.5em;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    .HomeLink, .MealsLink, .ExercisesLink, .ContactLink, .LogInOutLink {
+        font-size: 0.2em;
+    }
+
+    .LogInOutLink {
+        top: 3em;
+    }
 }

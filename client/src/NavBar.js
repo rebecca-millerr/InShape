@@ -14,13 +14,17 @@ class NavBar extends React.Component {
 
   render() {
 
-    const navLinks = this.props.links.map(link =>
-      <NavLink
-        key = {link.num}
-        text = {link.text}
-        url = {link.url}
-        className = {link.className}
-      />);
+    const navLinks = this.props.links.map(link => {
+      if ( link ) {
+        return <NavLink
+          key = {link.num}
+          text = {link.text}
+          url = {link.url}
+          className = {link.className}
+          dropdown = {link.dropdown}
+        />
+      }
+    });
 
     return(
       <div className = "NavBar">
