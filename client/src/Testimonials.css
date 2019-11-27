@@ -12,9 +12,38 @@
 
 
 .TestimonialsHeading {
-    
+    font-family: Bradley Hand, cursive;
+    font-size: 2em;
 }
 
-.TestimonialsText {
-    
+.TestimonialsText1 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+}
+
+.TestimonialGiver1 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+}
+
+.TestimonialsText2 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+    padding-top: 5%;
+}
+
+.TestimonialGiver2 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+}
+
+.TestimonialsText3 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
+    padding-top: 5%;
+}
+
+.TestimonialGiver3 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8em;
 }

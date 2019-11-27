@@ -12,5 +12,10 @@
 
 
 .MissionHeading {
-    
+    font-family: Bradley Hand, cursive;
+    font-size: 2em;
+}
+
+.MissionText {
+	font-family: "Lucida Console", Monaco, monospace;
 }

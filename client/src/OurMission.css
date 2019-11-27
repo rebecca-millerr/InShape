@@ -6,14 +6,39 @@
     padding: 5%;
     border-radius: 20px;
     color: #ededed;
-    font-size: 1.4em;
     line-height: 1.5em;
 }
 
 .OurMissionHeading {
-
+    font-family: Bradley Hand, cursive;
+    font-size: 3em;
 }
 
-.OurMissionText {
-	
+.OurMissionText1 {
+	font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1.1em;
+}
+
+.OurMissionText2 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1.1em;
+    padding-top: 2.4%;
+}
+
+.OurMissionText3 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1.1em;
+    padding-top: 2.4%;
+}
+
+.OurMissionText4 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1.1em;
+    padding-top: 2.4%;
+}
+
+.OurMissionText5 {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 1.1em;
+    padding-top: 2.4%;
 }
