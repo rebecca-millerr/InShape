@@ -23,14 +23,14 @@ module.exports = {
         let created = req.body.created;
         let modified = req.body.modified;
 
-        let usernameQuery = "SELECT * FROM 'users' WHERE first_name = '" + first_name + "'";
+        let emailQuery = "SELECT * FROM 'users' WHERE email = '" + email + "'";
 
-        db.query(usernameQuery, (err, result) => {
+        db.query(emailQuery, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
             if (result.length > 0) {
-                message = 'Name already exists';
+                message = 'User already exists';
                 res.render('add-user.ejs', {
                     message,
                     title: "Welcome to Socka | Add a new user"
@@ -87,7 +87,6 @@ module.exports = {
     },
     deleteUser: (req, res) => {
         let userId = req.params.id;
-        let getImageQuery = 'SELECT image from `users` WHERE id = "' + userId + '"';
         let deleteUserQuery = 'DELETE FROM users WHERE id = "' + userId + '"';
     }
 };
