@@ -11,6 +11,7 @@
 .FormBox {
     width: 80%;
     height: 350px;
+    overflow-y: auto;
     margin: 0 auto;
     background-color: #b6c7e3;
     border-radius: 20px;
@@ -19,6 +20,9 @@
 }
 
 .TextField {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 25%;
     border-color: transparent;
     border-radius: 5px;
     font-size: 1em;
@@ -34,4 +38,65 @@
 .TextField:focus {
     box-shadow: 0 0 5px #555;
     outline: none;
+}
+
+.RadioSection {
+    box-sizing: border-box;
+    margin: 0.4em 0.8em 0.7em 0.8em;
+}
+
+.RadioOption {
+    margin: 0.2em 0.8em;
+    display: inline-block;
+}
+
+.InlineRadioTitle {
+    display: inline-block;
+    font-weight: 600;
+    margin: 0;
+}
+
+.FirstOption {
+    margin-left: 0 !important;
+}
+
+.RadioTitle {
+    margin: 0.5em 0;
+    font-weight: 600;
+}
+
+.RadioOptionClose {
+    display: inline-block;
+    margin: 0.3em 0.8em;
+}
+
+.AllergyBox {
+    background-color: #fff;
+    box-sizing: border-box;
+    height: 200px;
+    width: 60%;
+    float: right;
+    padding: 2% 4%;
+    margin: 1% 5% 3% 5%;
+    border-radius: 5px;
+    overflow: auto;
+    position: relative;
+}
+
+.SubmitButton {
+    background-color: #666;
+    color: #fff;
+    padding: 0.6em 3em;
+    margin: 4em 0.8em;
+    border-radius: 20px;
+    border: transparent;
+    font-size: 1em;
+    font-family: sans-serif;
+    font-weight: 200;
+    outline: none;
+    transition: 0.4s;
+}
+
+.SubmitButton:hover {
+    background-color: #999;
 }

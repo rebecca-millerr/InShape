@@ -51,16 +51,16 @@ class Meals extends React.Component {
   fetchMeals() {
     console.log('fetch meals');
 
-    fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
-          + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
-          + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
-          + "&exclude" + this.state.allergies)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          data : data
-        }, this.fetchRecipes);
-      });
+    // fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
+    //       + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
+    //       + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
+    //       + "&exclude" + this.state.allergies)
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     this.setState({
+    //       data : data
+    //     }, this.fetchRecipes);
+    //   });
   }
 
   async fetchRecipes() {
@@ -69,57 +69,57 @@ class Meals extends React.Component {
     //await this.fetchMeals(this.state.calories, this.state.diet, this.state.allergies);
     console.log(this.state.recipes)
     for ( let i = 0; i < 3; i++ ) {
-      await fetch("https://api.spoonacular.com/recipes/" 
-                  + this.state.data.meals[i].id 
-                  + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
-                  + "&includeNutrition=true")
-        .then(response => response.json())
-        .then(data => {
-          console.log(this.state.recipes)
-          let tempRecipes = this.state.recipes.slice(0);
-          tempRecipes.push(data);
-          console.log(tempRecipes)
-          console.log(this.state.recipes)
-          if ( this.state.recipes !== tempRecipes ) {
-            console.log('changing recipes')
-            this.setState({
-              recipes : tempRecipes
-            }, this.makeFood);
-          }
-        });  
+      // await fetch("https://api.spoonacular.com/recipes/" 
+      //             + this.state.data.meals[i].id 
+      //             + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
+      //             + "&includeNutrition=true")
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(this.state.recipes)
+      //     let tempRecipes = this.state.recipes.slice(0);
+      //     tempRecipes.push(data);
+      //     console.log(tempRecipes)
+      //     console.log(this.state.recipes)
+      //     if ( this.state.recipes !== tempRecipes ) {
+      //       console.log('changing recipes')
+      //       this.setState({
+      //         recipes : tempRecipes
+      //       }, this.makeFood);
+      //     }
+      //   });  
     }
   }
 
   makeFood() {
     console.log('makeFood');
 
-    const totalCals    = this.state.data.nutrients.calories;
-    const totalCarbs   = this.state.data.nutrients.carbohydrates;
-    const totalFat     = this.state.data.nutrients.fat;
-    const totalProtein = this.state.data.nutrients.protein;
+    // const totalCals    = this.state.data.nutrients.calories;
+    // const totalCarbs   = this.state.data.nutrients.carbohydrates;
+    // const totalFat     = this.state.data.nutrients.fat;
+    // const totalProtein = this.state.data.nutrients.protein;
 
-    for ( let i = 0; i < 3; i++ ) {
-      let tempFood = this.state.food.slice(0);
-      let oneFood = {
-        id             : i + 1,
-        name           : this.state.data.meals[i].title,
-        prepTime       : this.state.data.meals[i].readyInMinutes,
-        percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
-        percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
-        percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
-        ingredients    : this.state.recipes[i].nutrition.ingredients,
-        instructions   : this.state.recipes[i].instructions
-      }
+    // for ( let i = 0; i < 3; i++ ) {
+    //   let tempFood = this.state.food.slice(0);
+    //   let oneFood = {
+    //     id             : i + 1,
+    //     name           : this.state.data.meals[i].title,
+    //     prepTime       : this.state.data.meals[i].readyInMinutes,
+    //     percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
+    //     percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
+    //     percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
+    //     ingredients    : this.state.recipes[i].nutrition.ingredients,
+    //     instructions   : this.state.recipes[i].instructions
+    //   }
 
-      tempFood[i] = oneFood;
+    //   tempFood[i] = oneFood;
 
-      if ( this.state.food !== tempFood ) {
-        this.setState({
-          food : tempFood
-        });
-      }
+    //   if ( this.state.food !== tempFood ) {
+    //     this.setState({
+    //       food : tempFood
+    //     });
+    //   }
       
-    }
+    // }
   }
 
   render() {
