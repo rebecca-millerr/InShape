@@ -8,10 +8,6 @@ module.exports = {
         });
     },
     addUser: (req, res) => {
-        if (!req.files) {
-            return res.status(400).send("No files were uploaded.");
-        }
-
         let message = '';
         let id = req.body.id;
         let first_name = req.body.first_name;
