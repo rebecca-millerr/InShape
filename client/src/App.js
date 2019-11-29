@@ -5,10 +5,13 @@ import {
   Route,  
 } from "react-router-dom";
 
-import NavBar from './NavBar';
+import NavLink from './NavLink';
+
 import Home from './Home';
 import SignUp from './SignUp';
+import LogIn from './LogIn';
 import Meals from './Meals';
+import Exercises from './Exercises';
 import Contact from './Contact';
 
 import './App.css';
@@ -19,11 +22,12 @@ class App extends React.Component {
     super(props)
     /*this.callBackendAPI = this.callBackendAPI.bind(this)*/
     this.state = {
-      data: null, // IDK
-      loggedIn : true // TODO : this can change
+      data     : null, // IDK
+      loggedIn : false
     }
 
     this.logInOut = this.logInOut.bind(this);
+    this.blank    = this.blank.bind(this);
   }
 
   // // TODO?
@@ -49,66 +53,102 @@ class App extends React.Component {
     this.setState(prevState => ({
       loggedIn : ! prevState.loggedIn
     }));
-  };
+  }
+
+  blank() {
+    return;
+  }
 
   render() {
 
     const navItems = new Array(5);
     if ( this.state.loggedIn ) {
       navItems[0] = ({
-        num : 1,
-        text : 'Home',
-        url : '/',
-        className : 'HomeLink'
+        num               : 1,
+        text              : 'InShape',
+        url               : '/',
+        changePermissions : this.blank,
+        className         : 'HomeLink'
       });
       navItems[1] = ({
-        num: 2,
-        text : 'Meals',
-        url : '/meals',
-        className : 'MealsLink'
+        num               : 2,
+        text              : 'Meals',
+        url               : '/meals',
+        changePermissions : this.blank,
+        className         : 'MealsLink'
       }); 
       navItems[2] = ({
-        num : 3,
-        text: 'Exercises',
-        url : '#', // TODO
-        className : 'ExercisesLink'
+        num               : 3,
+        text              : 'Exercises',
+        url               : '/exercises',
+        changePermissions : this.blank,
+        className         : 'ExercisesLink'
       });
       navItems[3] = ({
-        num : 4,
-        text : 'Contact',
-        url : '/contact',
-        className : 'ContactLink'
+        num               : 4,
+        text              : 'Contact',
+        url               : '/contact',
+        changePermissions : this.blank,
+        className         : 'ContactLink'
       });
       navItems[4] = ({
-        num : 5,
-        text : 'Log Out'/*'Log' + '\u00A0' + 'Out'*/,
-        url : '#',
-        className : 'LogInOutLink'
+        num               : 5,
+        text              : 'Log Out',
+        url               : '/',
+        changePermissions : this.logInOut,
+        className         : 'LogInOutLink'
       });
     }
     else {
       for ( let i = 0; i < 4; i++ ) {
         navItems[i] = null;
       }
+      navItems[0] = ({
+        num               : 1,
+        text              : 'InShape',
+        url               : '/',
+        changePermissions : this.blank,
+        className         : 'HomeLink'
+      });
       navItems[4] = ({
-        num : 5,
-        text: 'Log' + '\u00A0' + 'In',
-        url : '#',
-        className : 'LogInOutLink',
-        dropdown: true
+        num               : 5,
+        text              : 'Log In',
+        url               : '/log-in',
+        changePermissions : this.blank,
+        className         : 'LogInOutLink',
+        dropdown          : true
       });
     }
 
+    const navLinks = navItems.map(link => {
+      if ( link ) {
+        return <NavLink
+          key               = {link.num}
+          text              = {link.text}
+          url               = {link.url}
+          className         = {link.className}
+          dropdown          = {link.dropdown}
+          changePermissions = {link.changePermissions}
+        />
+      }
+    });
+
     return (
       <div>
-        <NavBar links = {navItems} />
+        <div className = "NavBar">
+          {navLinks}
+        </div>
         <div className = "Adjuster">
         </div>
           <Router>
             <Switch>
               <Route exact path = "/" component = {Home} />
-              <Route path = "/sign-up" component = {SignUp} />
+              <Route path = "/sign-up">
+                <SignUp validate = {this.logInOut} />
+              </Route>
+              <Route path = "/log-in" component = {LogIn} />
               <Route path = "/meals" component = {Meals} />
+              <Route path = "/exercises" component = {Exercises} />
               <Route path = "/contact" component = {Contact} />
             </Switch>
           </Router>

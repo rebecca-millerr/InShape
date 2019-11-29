@@ -1,0 +1,22 @@
+.Allergy {
+    border-radius: 5px;
+    background-color: #ddd;
+    font-weight: 300;
+    transition: 0.4s;
+    display: block;
+    position: relative;
+    padding: 0.6em;
+    margin: 0.3em;
+    min-width: 51%;
+    max-width: 100%;
+    float: left;
+}
+
+.Allergy:hover {
+    background-color: #aaa;
+}
+
+.AllergyX {
+    color: #666;
+    float: right;
+}

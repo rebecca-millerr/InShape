@@ -15,11 +15,19 @@ class MealSection extends React.Component {
 
         return(
             <div className = {"MealSection " + sideClass} style = {style}>
-                <h2>{this.props.title}</h2>
-                <p>Cupim pork belly meatball chuck beef ribs beef pig picanha tenderloin pork chop tongue prosciutto pastrami meatloaf jerky.</p>
             </div>
         )
     }
 }
+
+/*                <h2>{this.props.data.title}</h2>
+                <p>{this.props.data.name}</p>
+                <p>{this.props.data.prepTime}</p>
+                <p>{this.props.data.percentCarbs}</p>
+                <p>{this.props.data.percentFat}</p>
+                <p>{this.props.data.percentProtein}</p>
+                <p>{this.props.data.ingredients}</p>
+                <p>{this.props.data.instructions}</p>*/
+
 
 export default MealSection;
