@@ -7,13 +7,17 @@ class NavLink extends React.Component {
     super();
 
     this.state = {
-      hidden : true
+      hidden : true,
+      hover  : false
     };
 
-    this.drop = this.drop.bind(this);
+    this.dropTimeout = this.dropTimeout.bind(this);
+    this.dropHover   = this.dropHover.bind(this);
+    this.undrop      = this.undrop.bind(this);
   }
 
-  drop() {
+  dropTimeout() {
+
     if ( this.props.dropdown ) {
       this.setState({
         hidden : false
@@ -21,10 +25,30 @@ class NavLink extends React.Component {
     }
 
     setTimeout(() => {
+      if ( ! this.state.hover ) {
+        this.setState({
+          hidden : true
+        })
+      } 
+    }, 2000);
+  }
+
+  dropHover() {
+    if ( ! this.state.hidden ) {
       this.setState({
-        hidden : true
-      })
-    }, 1000);
+        hidden : false,
+        hover  : true
+      });
+    }
+  }
+
+  undrop() {
+    if ( ! this.state.hidden ) {
+      this.setState({
+        hidden : true,
+        hover  : false
+      });
+    }
   }
 
   render() {
@@ -34,11 +58,22 @@ class NavLink extends React.Component {
 
     return(
       <div className = "NavLink">
-        <a href = {this.props.url} className = {this.props.className} onMouseEnter = {this.drop}>
+        <a 
+          href         = {this.props.url} 
+          className    = {this.props.className} 
+          onMouseEnter = {this.dropTimeout}
+          onClick      = {() => this.props.changePermissions()}
+        >
           {this.props.text}
         </a>
         <div>
-          <a href = "/sign-up" className = {dropClass} style = {style}>
+          <a 
+            href         = "/sign-up" 
+            className    = {dropClass} 
+            style        = {style} 
+            onMouseEnter = {this.dropHover} 
+            onMouseLeave = {this.undrop}
+          >
             Sign Up
           </a>
         </div>

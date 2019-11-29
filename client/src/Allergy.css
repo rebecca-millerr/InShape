@@ -15,3 +15,8 @@
 .Allergy:hover {
     background-color: #aaa;
 }
+
+.AllergyX {
+    color: #666;
+    float: right;
+}
