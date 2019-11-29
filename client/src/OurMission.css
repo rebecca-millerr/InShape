@@ -6,39 +6,47 @@
     padding: 5%;
     border-radius: 20px;
     color: #ededed;
+    font-size: 1.4em;
     line-height: 1.5em;
 }
 
 .OurMissionHeading {
-    font-family: Bradley Hand, cursive;
-    font-size: 3em;
+    width: 40%;
+    margin: 4% auto;
+    background-color: #736096;
+    padding: 3%;
+    border-radius: 10px;
+
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .OurMissionText1 {
-	font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.1em;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
 }
 
 .OurMissionText2 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.1em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 2.4%;
 }
 
 .OurMissionText3 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.1em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 2.4%;
 }
 
 .OurMissionText4 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.1em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 2.4%;
 }
 
 .OurMissionText5 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 1.1em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 2.4%;
 }
