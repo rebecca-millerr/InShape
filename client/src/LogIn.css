@@ -1,6 +1,6 @@
 .FormBox {
-    width: 80%;
-    height: 350px;
+    width: 50%;
+    height: 200px;
     position: relative;
     overflow-y: auto;
     margin: 0 auto;
@@ -10,12 +10,12 @@
     padding: 2%;
 }
 
-.SignUpHeading {
+.LogInHeading {
     font-weight: 400;
     margin: 0 0 1em 0;
 }
 
-.SignUpPage {
+.LogInPage {
     margin: 6%;
     text-align: center;
 }
