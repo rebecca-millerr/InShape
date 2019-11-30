@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const path = require('path');
 const app = express();
 
 const port = 5000;
@@ -14,7 +13,6 @@ const db = mysql.createConnection ({
     password: 'InShape_20',
     database: 'inshape'
 });
-
 
 // Connect
 db.connect(function(err) {
@@ -115,6 +113,12 @@ app.post('/edit/:id', function(req, res) {
 app.get('/delete/:id', function(req, res) {
     let userId = req.params.id;
     let deleteUserQuery = 'DELETE FROM users WHERE id = "' + userId + '"';
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.redirect('/'); // set to whichever page to direct
+    });
 });
 
 // // set the app to listen on the port
