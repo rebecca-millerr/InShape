@@ -4,6 +4,8 @@ const mysql = require('mysql');
 const path = require('path');
 const app = express();
 
+const port = 5000;
+
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
 const db = mysql.createConnection ({
@@ -13,9 +15,6 @@ const db = mysql.createConnection ({
     database: 'inshape'
 });
 
-const {getHomePage} = require('./routes/index.js');
-const {addUserPage, addUser, deleteUser, editUser, editUserPage} = require('./routes/user.js');
-const port = 5000;
 
 // Connect
 db.connect(function(err) {
@@ -45,20 +44,78 @@ db.connect(function(err) {
 
 // configure middleware
 app.set('port', process.env.port || port); // set express to use this port
-app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
-app.set('view engine', 'ejs'); // configure template engine
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
-app.use(express.static(path.join(__dirname, 'public'))); // configure express to use public folder
 
-// // routes for the app
-app.get('/', getHomePage);
-app.get('/add', addUserPage);
-app.get('/edit/:id', editUserPage);
-app.get('/delete/:id', deleteUser);
-app.post('/add', addUser);
-app.post('/edit/:id', editUser);
+// add user
+app.post('/add', function(req, res) {
+    let id = req.body.id;
+    let first_name = req.body.first_name;
+    let last_name = req.body.last_name;
+    let email = req.body.email;
+    let password = req.body.password;
+    let birth = req.body.birth;
+    let sex = req.body.sex;
+    let height = req.body.height;
+    let weight = req.body.weight;
+    let bmi = req.body.bmi;
+    let bmi_goal = req.body.bmi_goal;
+    let created = req.body.created;
+    let modified = req.body.modified;
 
+    let usernameQuery = "SELECT * FROM 'users' WHERE first_name = '" + first_name + "'";
+
+    db.query(usernameQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        if (result.length > 0) {
+            //res.send("name exists");
+            console.log("Name exists");
+        } else {
+            // send the user's details to the database
+            let query = "INSERT INTO `users` (id, first_name, last_name, email, password, birth, sex, height, weight, bmi, bmi_goal, created, modified) VALUES ('" + 
+            id + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + birth + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + bmi + "', '" + bmi_goal + "', '" + created + "', '" + modified + "')";
+            db.query(query, (err, result) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+                res.redirect('/'); //set link to wherever next
+            });
+        }
+    });
+});
+
+//edit user
+app.post('/edit/:id', function(req, res) {
+    let userId = req.params.id;
+    let first_name = req.body.first_name;
+    let last_name = req.body.last_name;
+    let email = req.body.email;
+    let password = req.body.password;
+    let birth = req.body.birth;
+    let sex = req.body.sex;
+    let height = req.body.height;
+    let weight = req.body.weight;
+    let bmi = req.body.bmi;
+    let bmi_goal = req.body.bmi_goal;
+    let created = req.body.created;
+    let modified = req.body.modified;
+
+    let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `birth` = '" + birth + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `bmi` = '" + bmi_goal + "', `created` = '" + created + "', `modified` = '" + modified + "' WHERE `users`.`id` = '" + userId + "'";
+    db.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.redirect('/'); // set to whichever page to direct
+    });
+});
+
+app.get('/delete/:id', function(req, res) {
+    let userId = req.params.id;
+    let deleteUserQuery = 'DELETE FROM users WHERE id = "' + userId + '"';
+});
 
 // // set the app to listen on the port
 app.listen(port, () => {
