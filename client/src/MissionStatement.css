@@ -1,21 +1,30 @@
 .MissionStatement {
-    height: 30%;
+    height: 250px;
     width: 60%;
     margin: 8% auto;
     background-color: #465d80;
-    padding: 5%;
+    padding: 9% 5% 5% 5%;
     border-radius: 20px;
     color: #ededed;
     font-size: 1.4em;
     line-height: 1.5em;
 }
 
-
 .MissionHeading {
-    font-family: Bradley Hand, cursive;
+    width: 58%;
+    margin: 4% auto;
+    background-color: #736096;
+    padding: 3%;
+    border-radius: 10px;
+
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     font-size: 2em;
+    font-weight: bold;
 }
 
 .MissionText {
-	font-family: "Lucida Console", Monaco, monospace;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-style: italic;
+    font-size: 1.0em;
 }
+

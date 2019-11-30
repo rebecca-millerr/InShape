@@ -1,7 +1,18 @@
-p, a, h1, h2, h3, h4, h5, h6 {
-	font-family: "Lucida Console", Monaco, monospace;
+p, a, h1, h2, h3, h4, h5, h6, div {
+	font-family: "Raleway", sans-serif;
 }
 
 .Adjuster {
-	height: 70px;
+	height: 50px;
+}
+
+.NavBar {
+    position: fixed;
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    top: 0;
+    box-sizing: border-box;
+    padding: 1em 2em 0 2em;
+    z-index: 99;
 }

@@ -6,32 +6,33 @@
     padding: 5%;
     border-radius: 20px;
     color: #ededed;
+    font-size: 1.4em;
     line-height: 1.5em;
 }
 
 .ContactHeading {
-    font-family: Bradley Hand, cursive;
-    font-size: 2.6em;
+    width: 48%;
+    margin: 4% auto;
+    background-color: #736096;
+    padding: 3%;
+    border-radius: 10px;
+
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 2em;
 	text-align: center; 
+    font-weight: bold;
 }
 
 .ContactHeading2 {
     font-size: 1.0em;
     text-align: center;
-    font-family: "Lucida Console", Monaco, monospace;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     padding-top: 2%;
 }
 
 
 .ContactText {
-    height: 30%;
-    width: 60%;
-    margin: 8% auto;
-    background-color: #465d80;
-    padding: 5%;
-    border-radius: 20px;
-    color: #ededed;
-    font-family: "Lucida Console", Monaco, monospace;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     font-size: 1.0em;
 	text-align: center; 
     padding-top: 1%;

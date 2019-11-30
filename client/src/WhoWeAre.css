@@ -11,25 +11,41 @@
 }
 
 .WhoWeAreHeading {
-    font-family: Bradley Hand, cursive;
+    width: 40%;
+    margin: 4% auto;
+    background-color: #736096;
+    padding: 3%;
+    border-radius: 10px;
+
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     font-size: 2em;
+    font-weight: bold;
 }
 
 .WhoWeAreNames {
-	font-style: italic;
+	width: 48%;
+    margin: 4% auto;
+    background-color: #cdc5db;
+    padding: 1%;
+    border-radius: 10px;
+
+    font-style: italic;
     font-weight: bold;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 0.8em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 1.0em;
+    color: #736096;
+    margin-bottom: 1%;
+    margin-top: 8%;
 }
 
 .WhoWeAreText1 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 0.8em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 4%;
 }
 
 .WhoWeAreText2 {
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 0.8em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 0.9em;
     padding-top: 4%;
 }
