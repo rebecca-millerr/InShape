@@ -20,7 +20,10 @@ db.connect(function(err) {
     console.log('MySql Connected...');
 });
 
-// Create DB
+// OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
+//              ARE ALREADY CREATED
+
+// // Create DB
 // app.get('/createdb', (req, res) => {
 //     let sql = 'CREATE DATABASE inshape';
 //     db.query(sql, (err, result) => {
@@ -30,9 +33,9 @@ db.connect(function(err) {
 //     });
 // });
 
-// // // Create table
+//  // Create table
 // app.get('/createpoststable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.users (id int(5) NOT NULL AUTO_INCREMENT, first_name varchar(255) NOT NULL, last_name varchar(255) NOT NULL, email varchar(255) NOT NULL, password varchar(255) NOT NULL, birth date NOT NULL, sex char(1) NOT NULL, height int(11) NOT NULL, weight int(11) NOT NULL, bmi float NOT NULL, bmi_goal float NOT NULL, created date NOT NULL, modified date NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NOT NULL, last_name varchar(255) NOT NULL, email varchar(255) NOT NULL, password varchar(255) NOT NULL, age int(11) NOT NULL, sex char(1) NOT NULL, height int(11) NOT NULL, weight int(11) NOT NULL, goal_weight int(11) NOT NULL, activity int(1) NOT NULL, diet varchar(255) NOT NULL, allergy1 varchar(255) NOT NULL, allergy2 varchar(255) NOT NULL, allergy3 varchar(255) NOT NULL, allergy4 varchar(255) NOT NULL, allergy5 varchar(255) NOT NULL, calories int(11) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
 //     db.query(sql, (err, result) => {
 //         if(err) throw err;
 //         console.log(result);
@@ -48,33 +51,39 @@ app.use(bodyParser.json()); // parse form data client
 
 // add user
 app.post('/add', function(req, res) {
-    let id = req.body.id;
+    let username = req.body.username;
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
     let password = req.body.password;
-    let birth = req.body.birth;
+    let age = req.body.age;
     let sex = req.body.sex;
     let height = req.body.height;
     let weight = req.body.weight;
-    let bmi = req.body.bmi;
-    let bmi_goal = req.body.bmi_goal;
-    let created = req.body.created;
-    let modified = req.body.modified;
+    let goal_weight = req.body.goal_weight;
+    let activity = req.body.activity;
+    let diet = req.body.diet;
+    let allergy1 = req.body.allergy1;
+    let allergy2 = req.body.allergy2;
+    let allergy3 = req.body.allergy3;
+    let allergy4 = req.body.allergy4;
+    let allergy5 = req.body.allergy5;
+    let calories = req.body.calories;
 
-    let usernameQuery = "SELECT * FROM 'users' WHERE first_name = '" + first_name + "'";
+    let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
 
     db.query(usernameQuery, (err, result) => {
         if (err) {
             return res.status(500).send(err);
         }
+        // if querying the username returns a result
         if (result.length > 0) {
-            //res.send("name exists");
-            console.log("Name exists");
+            //res.send("User exists");
+            console.log("User exists");
         } else {
             // send the user's details to the database
-            let query = "INSERT INTO `users` (id, first_name, last_name, email, password, birth, sex, height, weight, bmi, bmi_goal, created, modified) VALUES ('" + 
-            id + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + birth + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + bmi + "', '" + bmi_goal + "', '" + created + "', '" + modified + "')";
+            let query = "INSERT INTO `users` (username, first_name, last_name, email, password, age, sex, height, weight, goal_weight, activity, diet, allergy1, allergy2, allergy3, allergy4, allergy5, calories) VALUES ('" + 
+            username + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + age + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + goal_weight + "', '" + activity + "', '" + diet + "', '" + allergy1 + "', '" + allergy2 + "', '" + allergy3 + "', '" + allergy4 + "', '" + allergy5 + "', '" + calories + "');";
             db.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
@@ -86,22 +95,27 @@ app.post('/add', function(req, res) {
 });
 
 //edit user
-app.post('/edit/:id', function(req, res) {
-    let userId = req.params.id;
+app.post('/edit/:username', function(req, res) {
+    let username = req.params.username;
     let first_name = req.body.first_name;
     let last_name = req.body.last_name;
     let email = req.body.email;
     let password = req.body.password;
-    let birth = req.body.birth;
+    let age = req.body.age;
     let sex = req.body.sex;
     let height = req.body.height;
     let weight = req.body.weight;
-    let bmi = req.body.bmi;
-    let bmi_goal = req.body.bmi_goal;
-    let created = req.body.created;
-    let modified = req.body.modified;
+    let goal_weight = req.body.goal_weight;
+    let activity = req.body.activity;
+    let diet = req.body.diet;
+    let allergy1 = req.body.allergy1;
+    let allergy2 = req.body.allergy2;
+    let allergy3 = req.body.allergy3;
+    let allergy4 = req.body.allergy4;
+    let allergy5 = req.body.allergy5;
+    let calories = req.body.calories;
 
-    let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `birth` = '" + birth + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `bmi` = '" + bmi_goal + "', `created` = '" + created + "', `modified` = '" + modified + "' WHERE `users`.`id` = '" + userId + "'";
+    let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `age` = '" + age + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `goal_weight` = '" + goal_weight + "', `activity` = '" + activity + "', `diet` = '" + diet + "', `allergy1` = '" + allergy1 + "', `allergy2` = '" + allergy2 + "', `allergy3` = '" + allergy3 + "', `allergy4` = '" + allergy4 + "', `allergy5` = '" + allergy5 + "', `calories` = '" + calories + "' WHERE `users`.`username` = '" + username + "';";
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);
@@ -110,9 +124,10 @@ app.post('/edit/:id', function(req, res) {
     });
 });
 
-app.get('/delete/:id', function(req, res) {
-    let userId = req.params.id;
-    let deleteUserQuery = 'DELETE FROM users WHERE id = "' + userId + '"';
+//delete user
+app.get('/delete/:username', function(req, res) {
+    let username = req.params.id;
+    let deleteUserQuery = 'DELETE FROM users WHERE username = "' + username + '";';
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             return res.status(500).send(err);
@@ -125,3 +140,54 @@ app.get('/delete/:id', function(req, res) {
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
+
+
+
+//
+// UNIT TESTS BELOW
+//
+
+var request = require('request');
+
+function addUser(postData){
+        var clientServerOptions = {
+            uri: 'http://localhost:5000/add',
+            body: JSON.stringify(postData),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        request(clientServerOptions, function (error, response) {
+            console.log(error,response.body);
+            return;
+        });
+    }
+
+function editUser(postData){
+    var clientServerOptions = {
+        uri: 'http://localhost:5000/edit/jackson',
+        body: JSON.stringify(postData),
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    request(clientServerOptions, function (error, response) {
+        console.log(error,response.body);
+        return;
+    });
+}      
+
+function deleteUser(){
+    request('http://localhost:5000/delete/jackson', function (error, response) {
+        console.log(error,response.body);
+        return;
+    });
+}
+
+
+// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190 });
+// editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120 });
+// deleteUser();
+
