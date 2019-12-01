@@ -14,7 +14,8 @@
 <div class="exercise-container"></div>
 
 
-         
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -28,30 +29,34 @@
 // {id: 9, name: "Legs"}    5
 // {id: 13, name: "Shoulders"} 6
         
-        var musclegroups = [5, 3 ,1]; // 
-        var muscle_names = [];
+        var musclegroups = [0, 1 ,2]; // 
+        var muscle_name = [];
         var muscle_ids = [];
         var exe_ids = [];
-        
+        var count = 0;
+        var counter = 0;
         $.ajax({
-        url: 'https://wger.de/api/v2/exercisecategory/?limit=100',
+        url: 'https://wger.de/api/v2/exercisecategory/?limit=204',
         beforeSend: function(xhr) {
              xhr.setRequestHeader("Authorization", "Token 299699dae6cbb4df1c7e9a2d75b919154b6ddaf8")
         }, success: function(data){
-           
+            
             for (i = 0 ; i < musclegroups.length ; i++){
-
-                var $container = $('<div class = "exercise-container">').addClass('musclegroup' + i);
                 
-                muscle_names[i] = data.results[musclegroups[i]].name;
+                var $musclename;
+                
+                
+                
+                muscle_name[i] = data.results[musclegroups[i]].name;
+        
                 muscle_ids[i] = data.results[musclegroups[i]].id;
-
+            
                 $.ajax({
-                    url: 'https://wger.de/api/v2/exercise/?muscles=' + muscle_ids[i] + '&language=2&status=2',
+                    url: 'https://wger.de/api/v2/exercise/?category=' + muscle_ids[i] + '&limit=204&language=2&status=2',
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader("Authorization", "Token 299699dae6cbb4df1c7e9a2d75b919154b6ddaf8")
                     }, success: function(data){
-
+                        
                         
                         //console.log(data);
                         var rand1 = Math.floor(Math.random()*(data.results.length));
@@ -63,58 +68,27 @@
                         exe_ids[i] = {exe1 : data.results[rand1].id, exe2 : data.results[rand2].id};
                         
                         
+                        var $container = $('<div class = "exercise-container">').addClass('musclegroup' + count);
+                
+                        var $musclename = $('<h1>').text("Muscle Group: " + muscle_name[count]);
+                            count++;
                         var $title1 = $('<h1>').text(data.results[rand1].name);
                         var $title2 = $('<h1>').text(data.results[rand2].name);
                         var $desc1 = data.results[rand1].description;
                         var $desc2 = data.results[rand2].description;
-                        
-                        //var image1, image2;
-                        
-                        // $.ajax({
-                        //     url: 'https://wger.de/api/v2/exerciseimage/' + exe_ids[i].exe1 + "/thumbnails",
-                        //     beforeSend: function(xhr) {
-                        //         xhr.setRequestHeader("Authorization", "Token 299699dae6cbb4df1c7e9a2d75b919154b6ddaf8")
-                        //     }, success: function(data){
-                        //         //console.log(data);
-
-                        //         image1 = data.original;
-                        //         console.log(image1);
-                        //         //process the JSON data etc
-                        //     }
-                        // });
-
-                        // $.ajax({
-                        //     url: 'https://wger.de/api/v2/exerciseimage/' + exe_ids[i].exe2 + "/thumbnails",
-                        //     beforeSend: function(xhr) {
-                        //         xhr.setRequestHeader("Authorization", "Token 299699dae6cbb4df1c7e9a2d75b919154b6ddaf8")
-                        //     }, success: function(data){
-                        //         //console.log(data);
-
-                        //         image2 = data.original
-
-                        //         //process the JSON data etc
-                        //     }
-                        // });
-                    
-                        // var $image1 = $('<img>').attr("src", image1);
-                        // var $image1 = $('<img>').attr("src", image2);
-
-
-                        $container.append($title1,$desc1,$title2,$desc2);
+                        $container.append($musclename,$title1,$desc1,$title2,$desc2);
                         $('.exercise-container').append($container);
                         }
+
+                        
                 });
+                
+                
             }
-            //console.log(exe_ids);
             
-            //process the JSON data etc
         }
         });
 
-        
-       // for (i = 0 ; i < muscle_ids.length; i++){
-        
-       // }
 
         
         </script>
