@@ -24,25 +24,25 @@ db.connect(function(err) {
 // OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
 //              ARE ALREADY CREATED
 
-// // Create DB
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE inshape';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Database created...');
-//     });
-// });
+// Create DB
+app.get('/createdb', (req, res) => {
+    let sql = 'CREATE DATABASE inshape';
+    db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Database created...');
+    });
+});
 
-//  // Create table
-// app.get('/createpoststable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Users table created...');
-//     });
-// });
+ // Create table
+app.get('/createpoststable', (req, res) => {
+    let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+    db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Users table created...');
+    });
+});
 
 app.get('/', (req, res) => {
     res.send('home');
@@ -57,24 +57,24 @@ app.use(cors());
 
 // add user
 app.post('/add', function(req, res) {
-    let username = req.body.username;
-    let first_name = req.body.first_name;
-    let last_name = req.body.last_name;
-    let email = req.body.email;
-    let password = req.body.password;
-    let age = req.body.age;
-    let sex = req.body.sex;
-    let height = req.body.height;
-    let weight = req.body.weight;
+    let username    = req.body.username;
+    let first_name  = req.body.first_name;
+    let last_name   = req.body.last_name;
+    let email       = req.body.email;
+    let password    = req.body.password;
+    let age         = req.body.age;
+    let sex         = req.body.sex;
+    let height      = req.body.height;
+    let weight      = req.body.weight;
     let goal_weight = req.body.goal_weight;
-    let activity = req.body.activity;
-    let diet = req.body.diet;
-    let allergy1 = req.body.allergy1;
-    let allergy2 = req.body.allergy2;
-    let allergy3 = req.body.allergy3;
-    let allergy4 = req.body.allergy4;
-    let allergy5 = req.body.allergy5;
-    let calories = req.body.calories;
+    let activity    = req.body.activity;
+    let diet        = req.body.diet;
+    let allergy1    = req.body.allergy1;
+    let allergy2    = req.body.allergy2;
+    let allergy3    = req.body.allergy3;
+    let allergy4    = req.body.allergy4;
+    let allergy5    = req.body.allergy5;
+    let calories    = req.body.calories;
 
     let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
 
