@@ -53,7 +53,7 @@ app.set('port', process.env.port || port); // set express to use this port
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
-app.use('cors');
+app.use(cors());
 
 // add user
 app.post('/add', function(req, res) {

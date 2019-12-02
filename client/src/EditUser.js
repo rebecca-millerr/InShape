@@ -8,19 +8,11 @@ import { faQuestionCircle, faCheckCircle } from '@fortawesome/free-solid-svg-ico
 
 const passwordHash = require('password-hash');
 
-// TODO: check on this
-// to run, might need to enter on command line: 
-// npm i --save @fortawesome/free-solid-svg-icons
-// npm i --save @fortawesome/react-fontawesome
-// npm i --save @fortawesome/fontawesome-svg-core
-
 class SignUp extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            firstName  : "",
-            lastName   : "",
             username   : "",
             password   : "",
             password2  : "",
@@ -44,7 +36,7 @@ class SignUp extends React.Component {
             dietHidden     : true,
             allergyHidden  : true,
 
-            loggedIn       : false
+            updated        : false
         }
 
         this.handleChange  = this.handleChange.bind(this);
@@ -52,6 +44,10 @@ class SignUp extends React.Component {
         this.hover         = this.hover.bind(this);
         this.calculate     = this.calculate.bind(this);
 
+    }
+
+    componentDidMount() {
+        // update state with data from database
     }
 
     handleChange(event) {
@@ -145,38 +141,21 @@ class SignUp extends React.Component {
                 break;
         }
 
-        let height, currWeight, goalWeight;
-        if ( this.state.units === 'metric' ) {
-            height     = this.state.height / 2.54;
-            currWeight = this.state.currWeight * 2.205;
-            goalWeight = this.state.goalWeight * 2.205;
-        }
-        else {
-            height     = this.state.height;
-            currWeight = this.state.currWeight;
-            goalWeight = this.state.goalWeight;
-        }
-
-
         let bmr, calories;
 
         if ( this.state.gender === 'male' ) {
-            bmr = 66 + ( 6.3 * currWeight ) + ( 12.9 * height ) 
+            bmr = 66 + ( 6.3 * this.state.currWeight ) 
+                  + ( 12.9 * this.state.height ) 
                   - ( 6.8 * this.state.age );
         }
         else {
-            bmr = 655 + ( 4.3 * currWeight ) + ( 4.7 * height ) 
+            bmr = 655 + ( 4.3 * this.state.currWeight )
+                  + ( 4.7 * this.state.height )
                   - ( 4.7 * this.state.age );
         }
 
         calories = bmr * activityMult;
 
-        if ( currWeight > goalWeight ) {
-            calories -= 500;
-        }
-        else if ( currWeight < goalWeight ) {
-            calories += 500;
-        }
 
         // password validation and hashing
         if ( this.state.password !== this.state.password2 ) {
@@ -224,7 +203,7 @@ class SignUp extends React.Component {
             allergies   : [],
             lastKey     : -1,
 
-            loggedIn    : true
+            updated     : true
         });
 
         // TODO: feed this as current user to database
@@ -234,7 +213,7 @@ class SignUp extends React.Component {
 
     render() {
 
-        if ( this.state.loggedIn ) {
+        if ( this.state.updated ) {
             return(
                 <div className = "SignUpPage">
                     <h1 className = "SignUpHeading">All done!</h1>
@@ -326,11 +305,10 @@ class SignUp extends React.Component {
                     <input 
                         type = "text"
                         name = "username"
-                        placeholder = "Username"
-                        onChange = {this.handleChange}
+                        placeholder = {this.state.username}
                         value = {this.state.username}
                         className = "TextField LongField" 
-                        required
+                        readonly
                     />
                     <input 
                         type = "email"

@@ -13,6 +13,7 @@ import LogIn from './LogIn';
 import Meals from './Meals';
 import Exercises from './Exercises';
 import Contact from './Contact';
+import EditUser from './EditUser';
 
 import './App.css';
 
@@ -96,7 +97,10 @@ class App extends React.Component {
         text              : 'Log Out',
         url               : '/',
         changePermissions : this.logInOut,
-        className         : 'LogInOutLink'
+        className         : 'LogInOutLink',
+        dropdown          : true,
+        dropdownText      : 'Edit User',
+        dropdownLink      : '/edit-user'
       });
     }
     else {
@@ -116,7 +120,9 @@ class App extends React.Component {
         url               : '/log-in',
         changePermissions : this.blank,
         className         : 'LogInOutLink',
-        dropdown          : true
+        dropdown          : true,
+        dropdownText      : 'Sign Up',
+        dropdownLink      : '/sign-up'
       });
     }
 
@@ -128,6 +134,8 @@ class App extends React.Component {
           url               = {link.url}
           className         = {link.className}
           dropdown          = {link.dropdown}
+          dropdownText      = {link.dropdownText}
+          dropdownLink      = {link.dropdownLink}
           changePermissions = {link.changePermissions}
         />
       }
@@ -149,6 +157,7 @@ class App extends React.Component {
               <Route path = "/log-in">
                 <LogIn validate = {this.logInOut} />
               </Route>
+              <Route path = "/edit-user" component = {EditUser} />
               <Route path = "/meals" component = {Meals} />
               <Route path = "/exercises" component = {Exercises} />
               <Route path = "/contact" component = {Contact} />
