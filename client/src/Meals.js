@@ -3,8 +3,7 @@ import React from 'react';
 import MealSection from './MealSection';
 
 import './Meals.css';
-
-// API doc: https://spoonacular.com/food-api/docs#Generate-Meal-Plan
+import MealSummary from './MealSummary';
 
 class Meals extends React.Component {
   constructor() {
@@ -26,7 +25,6 @@ class Meals extends React.Component {
 
   componentDidMount() {
 
-    console.log('component did mount');
     this.setState ({
       loading : true
     });
@@ -48,9 +46,8 @@ class Meals extends React.Component {
   }
 
   fetchMeals() {
-    console.log('fetch meals');
 
-    let counter = 0;
+    // let counter = 0;
     // fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
     //       + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
     //       + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
@@ -68,39 +65,32 @@ class Meals extends React.Component {
   }
 
   async fetchRecipes() {
-    console.log('fetch recipes');
 
-    console.log(this.state.recipes)
-    let counter = 0;
-    for ( let i = 0; i < 3; i++ ) {
+    // let counter = 0;
+    // for ( let i = 0; i < 3; i++ ) {
       
-      // await fetch("https://api.spoonacular.com/recipes/" 
-      //             + this.state.data.meals[i].id 
-      //             + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
-      //             + "&includeNutrition=true")
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log('in second then')
-      //     let tempRecipes = this.state.recipes.slice(0);
-      //     tempRecipes.push(data);
-      //     console.log(tempRecipes)
-      //     console.log(this.state.recipes)
-      //     this.setState({
-      //       recipes : tempRecipes
-      //     });  
-      //     counter++;
-      //   });
-      //   console.log('counter = ' + counter)
-      //   if ( counter === 3 ) {
-      //     console.log('in if')
-      //     /*console.log(this.state.recipes[i])*/this.makeFood()
-      //   }
-    }
+    //   await fetch("https://api.spoonacular.com/recipes/" 
+    //               + this.state.data.meals[i].id 
+    //               + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
+    //               + "&includeNutrition=true")
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       let tempRecipes = this.state.recipes.slice(0);
+    //       tempRecipes.push(data);
+    //       this.setState({
+    //         recipes : tempRecipes
+    //       });  
+    //       counter++;
+    //     });
+
+    //     if ( counter === 3 ) {
+    //       this.makeFood();
+    //     }
+    // }
   }
 
   makeFood() {
-    console.log('makeFood');
-    console.log(this.state.recipes)
+
     // for ( let i = 0; i < 3; i++ ) {
     //   let tempFood = this.state.food.slice(0);
     //   const oneFood = {
@@ -120,29 +110,20 @@ class Meals extends React.Component {
     //     food : tempFood
     //   });
     // }
-    console.log(this.state.food)
   }
 
   render() {
 
-    // TODO: make pretty loading
     // TODO: get rid of console logs
     // TODO: sort out images
-    // TODO: fix styling
-    // TODO: log daily info
-    // TODO: log meal info
 
     //var $image = $('<img>').attr("src","https://spoonacular.com/recipeImages/" + data.meals[i].id + "-240x150.jpg");
 
     if ( this.state.food.length !== 3 ) {
-      console.log('empty render');
       return (
         <div className = "Meals">
           <p className = "CallToAction">
-            Come back tomorrow for more, and refresh if you want something different!
-          </p>
-          <p className = "MealsSubtitle">
-            You're limited to 3 refreshes per day. Enjoy!
+            Come back tomorrow for more!
           </p>
           <p className = "Loading">
             Loading...
@@ -150,7 +131,6 @@ class Meals extends React.Component {
         </div>
       )
     }
-    console.log('nonempty render');
 
     const totalCals    = this.state.data.nutrients.calories;
     const totalCarbs   = this.state.data.nutrients.carbohydrates;
@@ -164,40 +144,22 @@ class Meals extends React.Component {
         data = {food}
       />
     );
+
     return(
       <div className = "Meals">
         <p className = "CallToAction">
-          Come back tomorrow for more, and refresh if you want something different!
+          Come back tomorrow for more!
         </p>
-        <p className = "MealsSubtitle">
-          You're limited to 3 refreshes per day. Enjoy!
-        </p>
+        <MealSummary 
+          cals    = {totalCals} 
+          carbs   = {totalCarbs}
+          fat     = {totalFat}
+          protein = {totalProtein}
+        />
         {mealSections}
       </div>
     )
   }
 }
-
-/*<MealSection 
-          side = "left" 
-          color = "#b6c7e3" 
-          title = "Breakfast" 
-          url = "#" 
-          data = {this.state.foods[0]}
-        />
-        <MealSection 
-          side = "right" 
-          color = "#bdaddb" 
-          title = "Lunch" 
-          url = "#" 
-          data = {this.state.foods[1]}
-        />
-        <MealSection 
-          side = "left" 
-          color = "#cdc5db" 
-          title = "Snack" 
-          url = "#" 
-          data = {this.state.foods[2]}
-        />*/
 
 export default Meals;

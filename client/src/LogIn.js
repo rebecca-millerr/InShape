@@ -35,8 +35,8 @@ class LogIn extends Component {
     render() {
         if ( this.state.loggedIn ) {
             return(
-                <div className = "SignUpPage">
-                    <h1 className = "SignUpHeading">All done!</h1>
+                <div className = "LoginPage">
+                    <h1 className = "LoginHeading">All done!</h1>
                 </div>
             )
         }
@@ -44,14 +44,14 @@ class LogIn extends Component {
         return(
             <div className = "LogInPage">
                 <h1 className = "LogInHeading"> Log In to get InShape!</h1>
-                <form className = "FormBox">                    
+                <form className = "LoginFormBox">                    
                     <input 
                         type = "text"
                         name = "username"
                         placeholder = "Username"
                         onChange = {this.handleChange}
                         value = {this.state.username}
-                        className = "TextField LongField" 
+                        className = "LoginTextField" 
                         required
                     />
                     <br />
@@ -61,12 +61,12 @@ class LogIn extends Component {
                         placeholder = "Password"
                         onChange = {this.handleChange}
                         value = {this.state.password}
-                        className = "TextField LongField" 
+                        className = "LoginTextField" 
                         required
                     />
 
                     <div>
-                        <center><div onClick = {this.authenticate} className = "SubmitButton">Log In</div></center>
+                        <center><div onClick = {this.authenticate} className = "LoginSubmitButton">Log In</div></center>
                     </div>  
                 </form>
             </div>

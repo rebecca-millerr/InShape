@@ -48,6 +48,8 @@ class SignUp extends React.Component {
 
     componentDidMount() {
         // update state with data from database
+        // set units to pounds by default
+        // sort out allergies, give them keys
     }
 
     handleChange(event) {
@@ -279,7 +281,7 @@ class SignUp extends React.Component {
 
         return(
             <div className = "SignUpPage">
-                <h1 className = "SignUpHeading">Join up and get InShape!</h1>
+                <h1 className = "SignUpHeading">Has something changed? Update us!</h1>
                 <form className = "FormBox">
                     <input 
                         type = "text" 
@@ -363,6 +365,7 @@ class SignUp extends React.Component {
                                     value = "imperial"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.units === "imperial"}
                                     required
                                 />
                                 <div className = "NoCheckButton"></div>
@@ -378,6 +381,7 @@ class SignUp extends React.Component {
                                     value = "metric"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.units === "metric"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -408,6 +412,7 @@ class SignUp extends React.Component {
                                     value = "female"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.gender === "female"}
                                     required
                                 />
                                 <div className = "NoCheckButton"></div>
@@ -423,6 +428,7 @@ class SignUp extends React.Component {
                                     value = "male"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.gender === "male"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -516,6 +522,7 @@ class SignUp extends React.Component {
                                     value = "veryLight"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "veryLight"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -531,6 +538,7 @@ class SignUp extends React.Component {
                                     value = "light"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "light"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -546,6 +554,7 @@ class SignUp extends React.Component {
                                     value = "moderate"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "moderate"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -561,6 +570,7 @@ class SignUp extends React.Component {
                                     value = "heavy"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "heavy"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -576,6 +586,7 @@ class SignUp extends React.Component {
                                     value = "veryHeavy"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "veryHeavy"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -604,9 +615,10 @@ class SignUp extends React.Component {
                                 <input
                                     type = "radio"
                                     name = "diet"
-                                    value = "glutenFree"
+                                    value = "gluten-free"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "gluten-free"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -622,6 +634,7 @@ class SignUp extends React.Component {
                                     value = "ketogenic"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "ketogenic"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -637,6 +650,7 @@ class SignUp extends React.Component {
                                     value = "vegetarian"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "vegetarian"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -652,6 +666,7 @@ class SignUp extends React.Component {
                                     value = "vegan"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "vegan"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -668,6 +683,7 @@ class SignUp extends React.Component {
                                     value = "pescetarian"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "pescetarian"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -683,6 +699,7 @@ class SignUp extends React.Component {
                                     value = "paleo"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "paleo"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -698,6 +715,7 @@ class SignUp extends React.Component {
                                     value = "primal"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "primal"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -713,6 +731,7 @@ class SignUp extends React.Component {
                                     value = "none"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.diet === "none"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>

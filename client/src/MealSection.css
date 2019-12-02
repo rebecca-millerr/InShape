@@ -1,13 +1,28 @@
 .MealSection {
     text-align: center;
-}
-
-.Left, .Right {
-    height: auto;
     box-sizing: border-box;
-    width: 20%;
-    margin: 3%;
+    vertical-align: top;
+    display: inline-block;
+    margin: 1%;
     padding: 2%;
     border-radius: 20px;
-    background-color: #bbcfed;
+    width: 25%;
+    background-color: #c1d5f5;
+}
+
+.MealTitle {
+	font-weight: 400;
+}
+
+.ShortLine {
+	line-height: 0.5em;
+}
+
+.MealText {
+	width: 100%;
+	text-align: left;
+}
+
+.DividerLine {
+	border: 1px solid #000;
 }

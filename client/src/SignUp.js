@@ -193,6 +193,7 @@ class SignUp extends React.Component {
         // send email
         // send hashed password
         // send age
+        // send units
         // send gender
         // send height
         // send current weight

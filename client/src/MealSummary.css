@@ -1,0 +1,13 @@
+.MealSummary {
+    height: auto;
+    width: 50%;
+    box-sizing: border-box;
+    background-color: #cdc5db;
+    margin: 3% auto;
+    padding: 2%;
+    border-radius: 20px;
+}
+
+.MealSubtitle {
+    font-weight: 800;
+}
