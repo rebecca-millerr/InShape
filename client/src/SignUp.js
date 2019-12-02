@@ -1,6 +1,4 @@
 import React from 'react';
-//import { Redirect } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
 
 import './SignUp.css';
 import Allergy from './Allergy';
