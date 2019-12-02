@@ -23,28 +23,7 @@ class LogIn extends Component {
         return(
             <div className = "LogInPage">
                 <h1 className = "LogInHeading"> Log In to get InShape!</h1>
-                <form className = "FormBox">
-                    <input 
-                        type = "text" 
-                        name = "firstName"
-                        placeholder = "First Name"
-                        onChange = {this.handleChange}
-                        value = {this.state.firstName}
-                        className = "TextField LongField"
-                        required
-                    />
-                    <input 
-                        type = "text" 
-                        name = "lastName"
-                        placeholder = "Last Name"
-                        onChange = {this.handleChange}
-                        value = {this.state.lastName}
-                        className = "TextField LongField"
-                        required
-                    />
-                    <br />
-
-                    
+                <form className = "FormBox">                    
                     <input 
                         type = "text"
                         name = "username"
@@ -54,7 +33,7 @@ class LogIn extends Component {
                         className = "TextField LongField" 
                         required
                     />
-
+                    <br />
                     <input 
                         type = "password"
                         name = "password"
@@ -66,7 +45,7 @@ class LogIn extends Component {
                     />
 
                     <div>
-                        <div onClick = {this.calculate} className = "SubmitButton">Log In</div>
+                        <center><div onClick = {this.calculate} className = "SubmitButton">Log In</div></center>
                     </div>  
                 </form>
             </div>
