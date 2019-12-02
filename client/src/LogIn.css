@@ -1,5 +1,5 @@
 .FormBox {
-    width: 50%;
+    width: 30%;
     height: 200px;
     position: relative;
     overflow-y: auto;
@@ -28,8 +28,9 @@
     border-radius: 5px;
     font-size: 1em;
     font-weight: 200;
-    padding: 1%;
-    margin: 1%;
+    padding: 2%;
+    margin: 3%;
+    width: 98%;
 }
 
 .TextField:focus {
@@ -54,6 +55,7 @@
     font-weight: 200;
     outline: none;
     transition: 0.4s;
+    margin-top: 10%;
 }
 
 .SubmitButton:hover {
