@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
+const cors = require('cors');
 
 const port = 5000;
 
@@ -43,11 +44,16 @@ db.connect(function(err) {
 //     });
 // });
 
+app.get('/', (req, res) => {
+    res.send('home');
+})
+
 // configure middleware
 app.set('port', process.env.port || port); // set express to use this port
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
+app.use('cors');
 
 // add user
 app.post('/add', function(req, res) {

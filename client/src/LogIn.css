@@ -1,6 +1,6 @@
 .FormBox {
     width: 70%;
-    height: 200px;
+    height: 240px;
     position: relative;
     overflow-y: auto;
     margin: 0 auto;
@@ -28,9 +28,8 @@
     border-radius: 5px;
     font-size: 1em;
     font-weight: 200;
-    padding: 2%;
-    margin: 3%;
-    width: 98%;
+    padding: 1%;
+    margin: 1%;
 }
 
 .TextField:focus {
@@ -47,7 +46,7 @@
     background-color: #736096;
     color: #fff;
     padding: 0.6em 3em;
-    margin: 4em 0.8em;
+    margin: 2.5em 0.8em;
     border-radius: 20px;
     border: transparent;
     font-size: 1em;
@@ -55,7 +54,6 @@
     font-weight: 200;
     outline: none;
     transition: 0.4s;
-    margin-top: 10%;
 }
 
 .SubmitButton:hover {

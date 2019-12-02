@@ -210,6 +210,8 @@ class SignUp extends React.Component {
             loggedIn    : true
         });
 
+        // TODO: feed this as current user to database
+
         this.props.validate();
     }
 

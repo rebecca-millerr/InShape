@@ -146,7 +146,9 @@ class App extends React.Component {
               <Route path = "/sign-up">
                 <SignUp validate = {this.logInOut} />
               </Route>
-              <Route path = "/log-in" component = {LogIn} />
+              <Route path = "/log-in">
+                <LogIn validate = {this.logInOut} />
+              </Route>
               <Route path = "/meals" component = {Meals} />
               <Route path = "/exercises" component = {Exercises} />
               <Route path = "/contact" component = {Contact} />
