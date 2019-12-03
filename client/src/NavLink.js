@@ -68,13 +68,13 @@ class NavLink extends React.Component {
         </a>
         <div>
           <a 
-            href         = "/sign-up" 
+            href         = {this.props.dropdownLink}
             className    = {dropClass} 
             style        = {style} 
             onMouseEnter = {this.dropHover} 
             onMouseLeave = {this.undrop}
           >
-            Sign Up
+            {this.props.dropdownText}
           </a>
         </div>
       </div>

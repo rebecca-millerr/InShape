@@ -1,0 +1,91 @@
+.ExercisesPage {
+	margin: 6%;
+    text-align: center;
+}
+
+.ExercisesHeading {
+	font-weight: 400;
+    margin: 0 0 1em 0;
+}
+
+.ExercisesFormBox {
+	width: 80%;
+    height: 240px;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: auto;
+    margin: 0 auto;
+    background-color: #b6c7e3;
+    border-radius: 20px;
+    text-align: center;
+    padding-top: 4%;
+}
+
+.CheckboxBox {
+    box-sizing: border-box;
+    position: relative;
+    width: auto;
+    height: auto;
+    margin-bottom: 4%;
+    padding: 0;
+}
+
+.CheckboxOption {
+    display: inline-block;
+    position: relative;
+    margin: 2%;
+}
+
+.Loading {
+	margin: 10%;
+	font-size: 2em;
+}
+
+.ExercisesSubmitButton {
+    display: inline-block;
+    background-color: #736096;
+    color: #fff;
+    padding: 0.6em 3em;
+    margin: 0 0.8em;
+    border-radius: 20px;
+    border: transparent;
+    font-size: 1em;
+    font-family: sans-serif;
+    font-weight: 200;
+    outline: none;
+    transition: 0.4s;
+}
+
+.ExercisesSubmitButton:hover {
+    background-color: #ddd;
+    color: #000;
+}
+
+.ExerciseCheckbox {
+    margin: 0 5%;
+    visibility: hidden;
+}
+
+.ExerciseCheckbox:checked ~ .CheckedCheckbox {
+    visibility: visible;
+}
+
+.NoCheckCheckbox {
+    position: absolute;
+    top: 20px;
+    left: -15px;
+    background-color: #fff;
+    height: 14px;
+    width: 14px;
+}
+
+.CheckedCheckbox {
+    position: absolute;
+    top: 17px;
+    left: -15px;
+    visibility: hidden;
+    z-index: 999;
+    height: 20px;
+    width : 20px;
+    color: #666;
+}

@@ -1,0 +1,19 @@
+.ExerciseByMuscle {
+    background-color: #cdc5db;
+    width: 80%;
+    height: auto;
+    box-sizing: border-box;
+    margin: 4% auto;
+    border-radius: 20px;
+    padding: 2%;
+}
+
+.MuscleGroup {
+    font-weight: 400;
+    margin: 1em 0 2em 0;
+}
+
+.ExerciseContainer {
+    width: 100%;
+    text-align: left;
+}

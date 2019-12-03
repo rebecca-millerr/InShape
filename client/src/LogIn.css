@@ -1,4 +1,4 @@
-.FormBox {
+.LoginFormBox {
     width: 70%;
     height: 240px;
     position: relative;
@@ -20,7 +20,7 @@
     text-align: center;
 }
 
-.TextField {
+.LoginTextField {
     box-sizing: border-box;
     display: inline-block;
     border-color: transparent;
@@ -32,16 +32,16 @@
     margin: 1%;
 }
 
-.TextField:focus {
+.LoginTextField:focus {
     box-shadow: 0 0 5px #555;
     outline: none;
 }
 
-.TextField::placeholder {
+.LoginTextField::placeholder {
     color: #888;
 }
 
-.SubmitButton {
+.LoginSubmitButton {
     display: inline-block;
     background-color: #736096;
     color: #fff;
@@ -56,7 +56,7 @@
     transition: 0.4s;
 }
 
-.SubmitButton:hover {
+.LoginSubmitButton:hover {
     background-color: #ddd;
     color: #000;
 }

@@ -62,27 +62,28 @@ app.set('port', process.env.port || port); // set express to use this port
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
+app.use(cors());
 
 // add user
 app.post('/add', function(req, res) {
-    let username = req.body.username;
-    let first_name = req.body.first_name;
-    let last_name = req.body.last_name;
-    let email = req.body.email;
-    let password = req.body.password;
-    let age = req.body.age;
-    let sex = req.body.sex;
-    let height = req.body.height;
-    let weight = req.body.weight;
+    let username    = req.body.username;
+    let first_name  = req.body.first_name;
+    let last_name   = req.body.last_name;
+    let email       = req.body.email;
+    let password    = req.body.password;
+    let age         = req.body.age;
+    let sex         = req.body.sex;
+    let height      = req.body.height;
+    let weight      = req.body.weight;
     let goal_weight = req.body.goal_weight;
-    let activity = req.body.activity;
-    let diet = req.body.diet;
-    let allergy1 = req.body.allergy1;
-    let allergy2 = req.body.allergy2;
-    let allergy3 = req.body.allergy3;
-    let allergy4 = req.body.allergy4;
-    let allergy5 = req.body.allergy5;
-    let calories = req.body.calories;
+    let activity    = req.body.activity;
+    let diet        = req.body.diet;
+    let allergy1    = req.body.allergy1;
+    let allergy2    = req.body.allergy2;
+    let allergy3    = req.body.allergy3;
+    let allergy4    = req.body.allergy4;
+    let allergy5    = req.body.allergy5;
+    let calories    = req.body.calories;
 
     let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
 

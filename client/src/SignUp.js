@@ -145,21 +145,38 @@ class SignUp extends React.Component {
                 break;
         }
 
+        let height, currWeight, goalWeight;
+        if ( this.state.units === 'metric' ) {
+            height     = this.state.height / 2.54;
+            currWeight = this.state.currWeight * 2.205;
+            goalWeight = this.state.goalWeight * 2.205;
+        }
+        else {
+            height     = this.state.height;
+            currWeight = this.state.currWeight;
+            goalWeight = this.state.goalWeight;
+        }
+
+
         let bmr, calories;
 
         if ( this.state.gender === 'male' ) {
-            bmr = 66 + ( 6.3 * this.state.currWeight ) 
-                  + ( 12.9 * this.state.height ) 
+            bmr = 66 + ( 6.3 * currWeight ) + ( 12.9 * height ) 
                   - ( 6.8 * this.state.age );
         }
         else {
-            bmr = 655 + ( 4.3 * this.state.currWeight )
-                  + ( 4.7 * this.state.height )
+            bmr = 655 + ( 4.3 * currWeight ) + ( 4.7 * height ) 
                   - ( 4.7 * this.state.age );
         }
 
         calories = bmr * activityMult;
 
+        if ( currWeight > goalWeight ) {
+            calories -= 500;
+        }
+        else if ( currWeight < goalWeight ) {
+            calories += 500;
+        }
 
         // password validation and hashing
         if ( this.state.password !== this.state.password2 ) {
@@ -176,6 +193,7 @@ class SignUp extends React.Component {
         // send email
         // send hashed password
         // send age
+        // send units
         // send gender
         // send height
         // send current weight

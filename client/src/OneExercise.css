@@ -1,0 +1,18 @@
+.OneExercise {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    position: relative;
+    overflow-y: auto;
+    width: 46%;
+    height: auto;
+    margin: 0 2%;
+    padding: 4%;
+    background-color: #fff;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.ExerciseName {
+    font-weight: 600;
+}

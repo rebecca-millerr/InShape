@@ -57,7 +57,7 @@
 
 .FormBox {
     width: 80%;
-    height: 350px;
+    height: 350px !important;
     position: relative;
     overflow-y: auto;
     margin: 0 auto;
