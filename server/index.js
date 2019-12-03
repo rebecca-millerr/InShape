@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
-const cors = require('cors');
 
 const port = 5000;
 
@@ -24,23 +23,33 @@ db.connect(function(err) {
 // OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
 //              ARE ALREADY CREATED
 
-// Create DB
-app.get('/createdb', (req, res) => {
-    let sql = 'CREATE DATABASE inshape';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('Database created...');
-    });
-});
+// // Create DB
+// app.get('/createdb', (req, res) => {
+//     let sql = 'CREATE DATABASE inshape';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Database created...');
+//     });
+// });
 
- // Create table
-app.get('/createpoststable', (req, res) => {
+// Create users table
+app.get('/createuserstable', (req, res) => {
     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
     db.query(sql, (err, result) => {
         if(err) throw err;
         console.log(result);
         res.send('Users table created...');
+    });
+});
+
+// Create current table
+app.get('/createcurrenttable', (req, res) => {
+    let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+    db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log(result);
+        res.send('Current table created...');
     });
 });
 
@@ -84,7 +93,7 @@ app.post('/add', function(req, res) {
         }
         // if querying the username returns a result
         if (result.length > 0) {
-            //res.send("User exists");
+            // res.send("User exists");
             console.log("User exists");
         } else {
             // send the user's details to the database
@@ -132,7 +141,7 @@ app.post('/edit/:username', function(req, res) {
 
 //delete user
 app.get('/delete/:username', function(req, res) {
-    let username = req.params.id;
+    let username = req.params.username;
     let deleteUserQuery = 'DELETE FROM users WHERE username = "' + username + '";';
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
@@ -143,7 +152,7 @@ app.get('/delete/:username', function(req, res) {
 });
 
 //get user info
-app.get('info/:username', function(req, res) {
+app.get('/info/:username', function(req, res) {
     let username = req.params.username;
     let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
     db.query(usernameQuery, (err, result) => {
@@ -158,10 +167,52 @@ app.get('info/:username', function(req, res) {
     });
 });
 
+//get current username
+app.get('/current', function(req, res) {
+    let usernameQuery = "SELECT username FROM inshape.current_user;";
+    db.query(usernameQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err)
+        }
+        if (result.length == 0) {
+            console.log("Not logged in");
+        }
+        else
+            res.send(result);
+    });
+});
+
+//log in current user
+app.get('/log_in/:username', function(req, res) {
+    let username = req.params.username;
+    let addUserQuery = "INSERT INTO `current_user` (username) VALUES ('" + username + "');";
+    db.query(addUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err)
+        }
+        else {
+            res.redirect('/'); //set link to wherever next
+        }
+    });
+});
+
+//log out current user
+app.get('/log_out', function(req, res) {
+    let deleteUserQuery = 'DELETE FROM inshape.current_user;';    
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err)
+        }
+        else
+            res.redirect('/'); //set link to wherever next
+    });
+});
+
 // // set the app to listen on the port
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
+
 
 
 
@@ -180,8 +231,8 @@ function addUser(postData){
                 'Content-Type': 'application/json'
             }
         }
-        request(clientServerOptions, function (error, response) {
-            console.log(error,response.body);
+        request(clientServerOptions, function (error) {
+            console.log(error);
             return;
         });
     }
@@ -196,14 +247,14 @@ function editUser(postData){
         }
     }
     request(clientServerOptions, function (error, response) {
-        console.log(error,response.body);
+        console.log(error);
         return;
     });
 }      
 
 function deleteUser(){
     request('http://localhost:5000/delete/jackson', function (error, response) {
-        console.log(error,response.body);
+        console.log(error);
         return;
     });
 }
@@ -215,8 +266,33 @@ function infoUser(){
     });
 }
 
+function currentUser(){
+    request('http://localhost:5000/current', function (error, response) {
+        console.log(error,response.body);
+        return;
+    });
+}
 
-addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190 });
+function loginUser(){
+    request('http://localhost:5000/log_in/jackson', function (error, response) {
+        console.log(error);
+        return;
+    });
+}
+
+function logoutUser(){
+    request('http://localhost:5000/log_out', function (error, response) {
+        console.log(error);
+        return;
+    });
+}
+
+// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190 });
 // editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120 });
+// infoUser();
 // deleteUser();
-infoUser();
+
+// loginUser();
+// currentUser();
+// logoutUser();
+// currentUser();
