@@ -35,7 +35,7 @@ db.connect(function(err) {
 
 // Create users table
 app.get('/createuserstable', (req, res) => {
-    let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+    let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
     db.query(sql, (err, result) => {
         if(err) throw err;
         console.log(result);
@@ -84,6 +84,7 @@ app.post('/add', function(req, res) {
     let allergy4    = req.body.allergy4;
     let allergy5    = req.body.allergy5;
     let calories    = req.body.calories;
+    let units       = req.body.units;
 
     let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
 
@@ -97,8 +98,8 @@ app.post('/add', function(req, res) {
             console.log("User exists");
         } else {
             // send the user's details to the database
-            let query = "INSERT INTO `users` (username, first_name, last_name, email, password, age, sex, height, weight, goal_weight, activity, diet, allergy1, allergy2, allergy3, allergy4, allergy5, calories) VALUES ('" + 
-            username + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + age + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + goal_weight + "', '" + activity + "', '" + diet + "', '" + allergy1 + "', '" + allergy2 + "', '" + allergy3 + "', '" + allergy4 + "', '" + allergy5 + "', '" + calories + "');";
+            let query = "INSERT INTO `users` (username, first_name, last_name, email, password, age, sex, height, weight, goal_weight, activity, diet, allergy1, allergy2, allergy3, allergy4, allergy5, calories, units) VALUES ('" + 
+            username + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + age + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + goal_weight + "', '" + activity + "', '" + diet + "', '" + allergy1 + "', '" + allergy2 + "', '" + allergy3 + "', '" + allergy4 + "', '" + allergy5 + "', '" + calories + "', '" + units + "');";
             db.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
@@ -129,8 +130,9 @@ app.post('/edit/:username', function(req, res) {
     let allergy4 = req.body.allergy4;
     let allergy5 = req.body.allergy5;
     let calories = req.body.calories;
+    let units    = req.body.units;
 
-    let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `age` = '" + age + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `goal_weight` = '" + goal_weight + "', `activity` = '" + activity + "', `diet` = '" + diet + "', `allergy1` = '" + allergy1 + "', `allergy2` = '" + allergy2 + "', `allergy3` = '" + allergy3 + "', `allergy4` = '" + allergy4 + "', `allergy5` = '" + allergy5 + "', `calories` = '" + calories + "' WHERE `users`.`username` = '" + username + "';";
+    let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `age` = '" + age + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `goal_weight` = '" + goal_weight + "', `activity` = '" + activity + "', `diet` = '" + diet + "', `allergy1` = '" + allergy1 + "', `allergy2` = '" + allergy2 + "', `allergy3` = '" + allergy3 + "', `allergy4` = '" + allergy4 + "', `allergy5` = '" + allergy5 + "', `calories` = '" + calories + "', `units` = '" + units + "' WHERE `users`.`username` = '" + username + "';";
     db.query(query, (err, result) => {
         if (err) {
             return res.status(500).send(err);
@@ -287,8 +289,8 @@ function logoutUser(){
     });
 }
 
-// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190 });
-// editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120 });
+// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190, units: "imperial" });
+// editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120, units: "metric" });
 // infoUser();
 // deleteUser();
 
