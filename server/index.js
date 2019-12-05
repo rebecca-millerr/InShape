@@ -104,6 +104,7 @@ app.post('/add', function(req, res) {
                 if (err) {
                     return res.status(500).send(err);
                 }
+                res.
                 res.redirect('/'); //set link to wherever next
             });
         }
@@ -184,6 +185,7 @@ app.get('/current', function(req, res) {
     });
 });
 
+//TODO: If username exists or not
 //log in current user
 app.get('/log_in/:username', function(req, res) {
     let username = req.params.username;
