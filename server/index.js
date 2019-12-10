@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
 const cors = require('cors');
-const axios = require('axios');
 
 app.use(cors());
 
@@ -12,10 +11,10 @@ const port = 5000;
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
 const db = mysql.createConnection ({
-    host: 'localhost',
-    user: 'root',
-    password: 'InShape_20',
-    database: 'inshape'
+    host: 'us-cdbr-iron-east-05.cleardb.net',
+    user: 'b2a20be38fef59',
+    password: '74b6ec4b',
+    // database: 'inshape'
 });
 
 // Connect
@@ -27,15 +26,16 @@ db.connect(function(err) {
 // OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
 //              ARE ALREADY CREATED
 
-// // Create DB
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE inshape';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Database created...');
-//     });
-// });
+// Create DB
+app.get('/createdb', (req, res) => {
+    let sql = 'CREATE DATABASE inshape';
+    db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log("Database created...");
+        console.log(result);
+        res.send('Database created...');
+    });
+});
 
 // Create users table
 app.get('/createuserstable', (req, res) => {
