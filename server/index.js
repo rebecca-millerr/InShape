@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
+const cors = require('cors');
+const axios = require('axios');
+
+app.use(cors());
 
 const port = 5000;
 
