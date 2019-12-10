@@ -6,6 +6,8 @@ const cors = require('cors');
 
 app.use(cors());
 
+const port = 5000;
+
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
 const db = mysql.createConnection ({
@@ -214,7 +216,7 @@ app.get('/log_out', function(req, res) {
     });
 });
 
-// set the app to listen on the port
+// // set the app to listen on the port
 app.listen(process.env.PORT || 5000);
 
 //
