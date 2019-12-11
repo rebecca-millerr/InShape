@@ -57,9 +57,9 @@ app.get('/createcurrenttable', (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.send('home');
-})
+// app.get('/', (req, res) => {
+//     res.send('home');
+// })
 
 // configure middleware
 app.set('port', process.env.port || port); // set express to use this port
