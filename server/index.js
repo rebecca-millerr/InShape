@@ -193,6 +193,19 @@ app.get('/current', function(req, res) {
 //log in current user
 app.get('/log_in/:username', function(req, res) {
     let username = req.params.username;
+    let usernameQuery = "SELECT username FROM inshape.current_user;";
+    db.query(usernameQuery, (err, result) => {
+        if (err) {
+            return res.status(500).send(err)
+        }
+        if (result.length != 0) {
+            let deleteUserQuery = 'DELETE FROM inshape.current_user;';    
+            db.query(deleteUserQuery, (err, result) => {
+                if (err) {
+                    return res.status(500).send(err)
+                }
+            });
+        } 
     let addUserQuery = "INSERT INTO `current_user` (username) VALUES ('" + username + "');";
     db.query(addUserQuery, (err, result) => {
         if (err) {
