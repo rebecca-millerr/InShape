@@ -23,44 +23,6 @@ db.connect(function(err) {
     console.log('MySql Connected...');
 });
 
-// OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
-//              ARE ALREADY CREATED
-
-// // Create DB
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE inshape';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log("Database created...");
-//         console.log(result);
-//         res.send('Database created...');
-//     });
-// });
-
-// // Create users table
-// app.get('/createuserstable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Users table created...');
-//     });
-// });
-
-// // Create current table
-// app.get('/createcurrenttable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Current table created...');
-//     });
-// });
-
-// app.get('/', (req, res) => {
-//     res.send('home');
-// })
-
 // configure middleware
 app.set('port', process.env.port || port); // set express to use this port
 
@@ -189,7 +151,6 @@ app.get('/current', function(req, res) {
     });
 });
 
-//TODO: If username exists or not
 //log in current user
 app.get('/log_in/:username', function(req, res) {
     let username = req.params.username;
@@ -206,6 +167,7 @@ app.get('/log_in/:username', function(req, res) {
                 }
             });
         } 
+    });
     let addUserQuery = "INSERT INTO `current_user` (username) VALUES ('" + username + "');";
     db.query(addUserQuery, (err, result) => {
         if (err) {
@@ -232,83 +194,41 @@ app.get('/log_out', function(req, res) {
 // // set the app to listen on the port
 app.listen(process.env.PORT || 5000);
 
-//
-// UNIT TESTS BELOW
-//
 
-var request = require('request');
+// OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
+//              ARE ALREADY CREATED
 
-function addUser(postData){
-        var clientServerOptions = {
-            uri: 'http://localhost:5000/add',
-            body: JSON.stringify(postData),
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        request(clientServerOptions, function (error) {
-            console.log(error);
-            return;
-        });
-    }
+// // Create DB
+// app.get('/createdb', (req, res) => {
+//     let sql = 'CREATE DATABASE inshape';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log("Database created...");
+//         console.log(result);
+//         res.send('Database created...');
+//     });
+// });
 
-function editUser(postData){
-    var clientServerOptions = {
-        uri: 'http://localhost:5000/edit/jackson',
-        body: JSON.stringify(postData),
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-    request(clientServerOptions, function (error, response) {
-        console.log(error);
-        return;
-    });
-}      
+// // Create users table
+// app.get('/createuserstable', (req, res) => {
+//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Users table created...');
+//     });
+// });
 
-function deleteUser(){
-    request('http://localhost:5000/delete/jackson', function (error, response) {
-        console.log(error);
-        return;
-    });
-}
+// // Create current table
+// app.get('/createcurrenttable', (req, res) => {
+//     let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Current table created...');
+//     });
+// });
 
-function infoUser(){
-    request('http://localhost:5000/info/jackson', function (error, response) {
-        console.log(error,response.body);
-        return;
-    });
-}
-
-function currentUser(){
-    request('http://localhost:5000/current', function (error, response) {
-        console.log(error,response.body);
-        return;
-    });
-}
-
-function loginUser(){
-    request('http://localhost:5000/log_in/jackson', function (error, response) {
-        console.log(error);
-        return;
-    });
-}
-
-function logoutUser(){
-    request('http://localhost:5000/log_out', function (error, response) {
-        console.log(error);
-        return;
-    });
-}
-
-// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190, units: "imperial" });
-// editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120, units: "metric" });
-// infoUser();
-// deleteUser();
-
-// loginUser();
-// currentUser();
-// logoutUser();
-// currentUser();
+// app.get('/', (req, res) => {
+//     res.send('home');
+// })
