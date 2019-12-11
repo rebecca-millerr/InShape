@@ -21,10 +21,13 @@ class LogIn extends Component {
         });
     }
 
-    authenticate() {
-        // validate password and username
-        // feed this as current user to database
+    async authenticate() {
+        const status = await fetch('/log_in/' + this.state.username);
+        console.log(status)
+        const json = await status.text();
+        console.log(json);
 
+        // clear state
         this.setState({
             loggedIn : true
         });

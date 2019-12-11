@@ -8,12 +8,6 @@ import { faQuestionCircle, faCheckCircle } from '@fortawesome/free-solid-svg-ico
 
 const passwordHash = require('password-hash');
 
-// TODO: check on this
-// to run, might need to enter on command line: 
-// npm i --save @fortawesome/free-solid-svg-icons
-// npm i --save @fortawesome/react-fontawesome
-// npm i --save @fortawesome/fontawesome-svg-core
-
 class SignUp extends React.Component {
 
     constructor() {
@@ -118,11 +112,26 @@ class SignUp extends React.Component {
                     allergyHidden : ! prevState.allergyHidden
                 }));
                 break;
+            default:
+                break;
         }
         
     }
 
-    calculate() {
+    async calculate() {
+
+        let sex;
+
+        switch(this.state.gender) {
+            case 'male':
+                sex = 'm';
+                break;
+            case 'female':
+                sex = 'f';
+                break;
+            default:
+                break;
+        }
 
         // calorie intake calculation
         let activityMult;
@@ -142,6 +151,8 @@ class SignUp extends React.Component {
                 break;
             case 'veryHeavy':
                 activityMult = 1.9;
+                break;
+            default:
                 break;
         }
 
@@ -186,24 +197,50 @@ class SignUp extends React.Component {
 
         const hashedPassword = passwordHash.generate(this.state.password);
 
-        // send to database
-        // send first name
-        // send last name
-        // send username
-        // send email
-        // send hashed password
-        // send age
-        // send units
-        // send gender
-        // send height
-        // send current weight
-        // send goal weight
-        // send height
-        // send activity level
-        // send calories
-        // send diet
-        // send allergies
-        // send created
+        let allergies = new Array(5);
+
+        // copy state allergies into new array
+        for ( let i = 0; i < this.state.allergies.length; i++ ) {
+            allergies[i] = this.state.allergies[i];
+        }
+
+        // fill extra slots with null
+        for ( let i = 0; i < 5; i++ ) {
+            if ( allergies.length <= i ) {
+                allergies[i] = null;
+            }
+        }
+
+        const status = await fetch('/add', {
+            body: JSON.stringify({ 
+                username    : this.state.username,
+                first_name  : this.state.firstName,
+                last_name   : this.state.lastName,
+                email       : this.state.email,
+                password    : hashedPassword,
+                age         : this.state.age,
+                sex         : sex,
+                height      : height,
+                weight      : currWeight,
+                goal_weight : goalWeight,
+                activity    : this.state.activity,
+                diet        : this.state.diet,
+                allergy1    : allergies[0],
+                allergy2    : allergies[1],
+                allergy3    : allergies[2],
+                allergy4    : allergies[3],
+                allergy5    : allergies[4],
+                calories    : calories,
+                units       : this.state.units
+            }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(status)
+        const json = await status.text();
+        console.log(json);
 
         this.setState({
             firstName  : "",
@@ -227,8 +264,6 @@ class SignUp extends React.Component {
 
             loggedIn    : true
         });
-
-        // TODO: feed this as current user to database
 
         this.props.validate();
     }
@@ -295,9 +330,6 @@ class SignUp extends React.Component {
         }
 
         const ageUnits = 'yrs';
-
-        // TODO: work out ID
-        // TODO: track create date
 
         return(
             <div className = "SignUpPage">

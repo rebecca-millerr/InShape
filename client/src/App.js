@@ -29,26 +29,88 @@ class App extends React.Component {
 
     this.logInOut = this.logInOut.bind(this);
     this.blank    = this.blank.bind(this);
+
+    this.callBackendAPI = this.callBackendAPI.bind(this);
   }
 
-  // // TODO?
-  // // TODO: Fetch in react component tree
-  // componentDidMount() {
-  //   this.callBackendAPI()
-  //   .then(res => {
-  //     this.setState({ data: res.express })})
-  //   .catch(err => console.log(err));
+  // TODO?
+  // TODO: Fetch in react component tree
+  async componentDidMount() {
+
+    // await fetch('/api').then((response) => {
+    //   console.log(response);
+    //   response.text().then(data => {
+    //       console.log(data);
+    //   });
+    // })
+
+    // const testObj = {
+    //   body: JSON.stringify({"test" : "obj"}),
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }
+
+    // const response = await fetch('/testpost', {
+    //   body: JSON.stringify({ test : "obj" }),
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // });
+    // console.log(response)
+    // const json = await response.text();
+    // console.log(json);
+      // .then(response => response.json()
+      //   .then(data => console.log(data))
+      // )
+
+    // const response2 = await fetch('/add', {
+    //   body: JSON.stringify({ 
+    //     test : "obj" 
+    //   }),
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // });
+    
+  }
+
+    // this.callBackendAPI()
+      // .then(res => console.log(res));
+    // .then(res => {
+    //   this.setState({ data: res.express })})
+    // .catch(err => console.log(err));
   // }
 
-  // // TODO?
-  // callBackendAPI = async () => {
-  //   const response = await fetch('/api');
-  //   const body = await response.json();
-  //   if (response.status !== 200) {
-  //     throw Error(body.message) 
-  //   }
-  //   return body;
-  // };
+  // TODO?
+  async callBackendAPI() {
+    // await fetch('/api').then((response) => {
+    //   console.log(response);
+    //   response.json().then((data) => {
+    //       console.log(data);
+    //   });
+    // });
+
+    // data = await fetch('/api');
+      //.then(response => response.json())
+      // .then(data => {
+      //   console.log(data);
+      // })
+    //     this.setState({
+    //       data : data
+    //     });
+
+    //const response = await fetch('/api');
+    //const body = await response.json();
+    // if (response.status !== 200) {
+    //   throw Error(body.message) 
+    // }
+    //return body;
+    // return response;
+  }
 
   logInOut() {
     this.setState(prevState => ({
