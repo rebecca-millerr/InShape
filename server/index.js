@@ -14,7 +14,7 @@ const db = mysql.createConnection ({
     host: 'us-cdbr-iron-east-05.cleardb.net',
     user: 'b2a20be38fef59',
     password: '74b6ec4b',
-    // database: 'inshape'
+    database: 'heroku_e96bd86a9e3395b'
 });
 
 // Connect
@@ -26,16 +26,16 @@ db.connect(function(err) {
 // OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
 //              ARE ALREADY CREATED
 
-// Create DB
-app.get('/createdb', (req, res) => {
-    let sql = 'CREATE DATABASE inshape';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log("Database created...");
-        console.log(result);
-        res.send('Database created...');
-    });
-});
+// // Create DB
+// app.get('/createdb', (req, res) => {
+//     let sql = 'CREATE DATABASE inshape';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log("Database created...");
+//         console.log(result);
+//         res.send('Database created...');
+//     });
+// });
 
 // Create users table
 app.get('/createuserstable', (req, res) => {
