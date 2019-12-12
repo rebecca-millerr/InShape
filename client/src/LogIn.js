@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import './LogIn.css';
+const passwordHash = require('password-hash');
 
 class LogIn extends Component {
     constructor() {
@@ -22,24 +23,62 @@ class LogIn extends Component {
     }
 
     async authenticate() {
+      
         const status = await fetch('/log_in/' + this.state.username);
         console.log(status)
         const json = await status.text(); // .json()
         console.log(json);
+        
+        const response = await fetch('/info/' + this.state.username);
+        console.log(response)
+        const json = await response.json();
+        console.log(json)
+
+        let hashedPassword;
+
+        if ( json.status === "failed" ) {
+            alert('No user with this username exists. Did you mean to sign up?');
+            return;
+        }
+        else {
+            hashedPassword = json[0].password;
+            const matchingPasswords = passwordHash.verify(this.state.password, hashedPassword);
+            console.log(matchingPasswords);
+
+            if ( !matchingPasswords ) {
+                alert('Invalid login credentials. Try again!');
+                return;
+            }
+            else {
+                const status = await fetch('/log_in/' + this.state.username);
+                console.log(status)
+
+                this.setState({
+                    loggedIn : true
+                });
+
+                this.props.validate();
+            }
+
+        }
+
+        
+        // json = { username : asdjknad, first_name = akajsnkaj ... }
+        // console.log(json.username)
+        // json is object with all info
+        // because /log_in/ only returns username
+        // /info would return everything
 
         // clear state
-        this.setState({
-            loggedIn : true
-        });
-
-        this.props.validate();
+        
     }
 
     render() {
         if ( this.state.loggedIn ) {
             return(
-                <div className = "LoginPage">
-                    <h1 className = "LoginHeading">All done!</h1>
+                <div className = "LogInPage">
+                    <h1 className = "LogInHeading">All done!</h1>
+                    <h3 className = "LogInReminder">Be sure to log out when you're done!</h3>
                 </div>
             )
         }

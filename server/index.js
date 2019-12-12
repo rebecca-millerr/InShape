@@ -1,7 +1,7 @@
-const express = require('express');
+const express    = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const app = express();
+const mysql      = require('mysql');
+const app        = express();
 
 const port = 5000;
 
@@ -11,21 +11,11 @@ app.set('port', process.env.port || port); // set express to use this port
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
 
-// if (process.env.NODE_ENV === 'production') {
-//     // Serve any static files
-//     app.use(express.static(path.join(__dirname, 'client/build')));
-    
-//     // Handle React routing, return all requests to React app
-//     app.get('*', function(req, res) {
-//         res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-//     });
-// }
-
 // TESTS for server side passing data to front end
 
-app.get('/', (req, res) => {
-    res.json({"home" : "success"});
-})
+// app.get('/', (req, res) => {
+//     res.json({"home" : "success"});
+// })
 
 app.get('/api', (req, res) => {
     res.json({"test" : "success"})
@@ -38,18 +28,15 @@ app.post('/testpost', (req, res) => {
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection ({
-    host: 'us-cdbr-iron-east-05.cleardb.net',
-    user: 'b2a20be38fef59',
-    password: '74b6ec4b',
-    // host: 'localhost',
-    // user: 'root',
-    // password: 'InShape_20',
-    database: 'heroku_e96bd86a9e3395b'
+const db = mysql.createConnection({
+    host     : 'us-cdbr-iron-east-05.cleardb.net',
+    user     : 'b2a20be38fef59',
+    password : '74b6ec4b',
+    database : 'heroku_e96bd86a9e3395b'
 });
 
 // Connect
-db.connect(function(err) {
+db.connect(err => {
     if(err) throw err;
     console.log('MySql Connected...');
 });
@@ -58,34 +45,34 @@ db.connect(function(err) {
 //              ARE ALREADY CREATED
 
 // Create DB
-app.get('/createdb', (req, res) => {
-    let sql = 'CREATE DATABASE inshape';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('Database created...');
-    });
-});
+// app.get('/createdb', (req, res) => {
+//     let sql = 'CREATE DATABASE inshape';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Database created...');
+//     });
+// });
 
 // Create users table
-app.get('/createuserstable', (req, res) => {
-    let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('Users table created...');
-    });
-});
+// app.get('/createuserstable', (req, res) => {
+//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Users table created...');
+//     });
+// });
 
 // Create current table
-app.get('/createcurrenttable', (req, res) => {
-    let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-    db.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result);
-        res.send('Current table created...');
-    });
-});
+// app.get('/createcurrenttable', (req, res) => {
+//     let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
+//     db.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result);
+//         res.send('Current table created...');
+//     });
+// });
 
 // add user
 app.post('/add', (req, res) => {
@@ -175,7 +162,6 @@ app.post('/edit/:username', function(req, res) {
         if (err) {
             return res.status(500).send(err);
         }
-        res.redirect('/'); // set to whichever page to direct
     });
 });
 
@@ -187,7 +173,6 @@ app.get('/delete/:username', function(req, res) {
         if (err) {
             return res.status(500).send(err);
         }
-        res.redirect('/'); // set to whichever page to direct
     });
 });
 
@@ -196,33 +181,58 @@ app.get('/info/:username', function(req, res) {
     let username = req.params.username;
     let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
     db.query(usernameQuery, (err, result) => {
+        
         if (err) {
-            return res.status(500).send(err)
+            res.json(err);
+            // res.json("1")
         }
-        if (result.length == 0) {
-            res.send("User doesn't exist");
+        if (result.length === 0) {
+            // res.json("2")
+            res.json({ "status" : "failed" });
         }
         else
-            res.send(result);
+            res.json(result);
+            // res.json("3")
     });
 });
 
-//get current username
-app.get('/current', function(req, res) {
+// get current username
+app.get('/current', (req, res) => {
     let usernameQuery = "SELECT username FROM heroku_e96bd86a9e3395b.current_user;";
-
     db.query(usernameQuery, (err, result) => {
         if (err) {
             res.json(err);
+            // res.json("hi")
         }
         else if (result.length === 0) {
+            console.log('no user')
             res.json({ "username" : "---" });
         }
         else {
+            console.log(result)
             res.json(result);
         }
     });
 });
+
+// app.post('/current', (req, res) => {
+//     let usernameQuery = "SELECT username FROM heroku_e96bd86a9e3395b.current_user;";
+//     // res.json("test")
+//     db.query(usernameQuery, (err, result) => {
+//         if (err) {
+//             console.log(err)
+//             res.json(err);
+//         }
+//         else if (result.length === 0) {
+//             console.log('no user')
+//             res.json(/*{ "username" : "---" }*/);
+//         }
+//         else {
+//             console.log(result)
+//             res.json(result);
+//         }
+//     });
+// });
 
 //log in current user
 app.get('/log_in/:username', function(req, res) {
@@ -234,7 +244,6 @@ app.get('/log_in/:username', function(req, res) {
         }
         else {
             res.json("deleted")
-            res.redirect('/'); //set link to wherever next
         }
     });
     let username = req.params.username;
@@ -244,22 +253,23 @@ app.get('/log_in/:username', function(req, res) {
             res.json({ "status" : "failed" })
         }
         else {
-            res.json({ "status" : "success" })
+            // res.json({ "status" : "success" })
         }
     });
 });
 
 //log out current user
-app.get('/log_out', function(req, res) {
-    let deleteUserQuery = 'DELETE FROM heroku_e96bd86a9e3395b.current_user;';    
+app.get('/log_out', (req, res) => {
+
+    let deleteUserQuery = "DELETE FROM heroku_e96bd86a9e3395b.current_user;";    
+    // res.json("in query")
     db.query(deleteUserQuery, (err, result) => {
+        
         if (err) {
             res.json(err);
-            // return res.status(500).send(err)
         }
         else {
             res.json("deleted")
-            res.redirect('/'); //set link to wherever next
         }
     });
 });
