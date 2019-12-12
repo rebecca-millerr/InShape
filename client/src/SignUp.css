@@ -23,7 +23,7 @@
 }
 
 .AllergyHoverBox {
-    left: 17.5em;
+    left: 90%;
     top: 0.4em !important;
     width: 100% !important;
     padding: 4% !important;
@@ -51,10 +51,6 @@
     left: 5em;
 }
 
-.FirstOption {
-    margin-left: 0 !important;
-}
-
 .FormBox {
     width: 80%;
     height: 350px !important;
@@ -72,7 +68,7 @@
     height: 15px;
     color: #666;
     float: right;
-    margin-top: 0;
+    margin-top: 0.5%;
     transition: 0.7s;
 }
 
@@ -93,7 +89,7 @@
     display: inline-block;
     position: relative;
     box-sizing: border-box;
-    width: 11%;
+    min-width: 7em;
     font-weight: 600;
     margin: 0;
 }
@@ -112,7 +108,7 @@
     display: inline-block;
     position: relative;
     margin: 0.5em 0;
-    width: 16%;
+    min-width: 8.5em;
     font-weight: 600;
 }
 
@@ -121,7 +117,7 @@
     height: 15px;
     color: #666;
     float: right;
-    margin: 6% 20% 0 0;
+    margin: 5% 14% 0 0;
     transition: 0.7s;
 }
 
@@ -140,7 +136,7 @@
     height: 15px;
     color: #666;
     float: right;
-    margin-top: 2%;
+    margin: 1% 20% 0 0;
     transition: 0.7s;
 }
 
@@ -169,13 +165,13 @@
     box-sizing: border-box;
     position: relative;
     min-width: 11%;
-    margin: 0.3em 0.8em;
+    margin: 0.3em 1.6em 0.3em 0;
 }
 
 .RadioOptionClose {
     display: block;
     position: relative;
-    margin: 0.3em 0.8em;
+    margin: 0.3em 1.6em 0.3em 0;
 }
 
 .RadioSection {
@@ -192,7 +188,7 @@
     display: inline-block;
     position: relative;
     margin: 0.5em 0;
-    width: 8%;
+    min-width: 4em;
     font-weight: 600;
 }
 
@@ -206,15 +202,21 @@
     text-align: center;
 }
 
+.SignUpReminder {
+    font-weight: 400;
+}
+
 .SubmitButton {
     display: inline-block;
+    box-sizing: border-box;
+    max-width: 40%;
     background-color: #736096;
     color: #fff;
-    padding: 0.6em 3em;
+    padding: 0.6em 1.8em;
     margin: 4em 0.8em;
     border-radius: 20px;
     border: transparent;
-    font-size: 1em;
+    font-size: 100%;
     font-family: sans-serif;
     font-weight: 200;
     outline: none;
@@ -265,6 +267,7 @@
 .WideRadioBlock {
     box-sizing: border-box;
     display: inline-block;
-    min-width: 20%;
+    min-width: 8.5em;
+    height: 1.5em;
     padding: 0;
 }

@@ -3,9 +3,6 @@ import React from 'react';
 import './WhoWeAre.css';
 
 class WhoWeAre extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(

@@ -4,9 +4,6 @@ import './ExerciseByMuscle.css';
 import OneExercise from './OneExercise';
 
 class ExerciseByMuscle extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(

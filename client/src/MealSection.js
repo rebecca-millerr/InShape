@@ -5,9 +5,6 @@ import Ingredient from './Ingredient';
 import Instruction from './Instruction';
 
 class MealSection extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
 

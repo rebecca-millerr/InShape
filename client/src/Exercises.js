@@ -304,7 +304,7 @@ class Exercises extends React.Component {
             exercises : null
         });
 
-        let exerciseSections = new Array();
+        let exerciseSections = [];
 
         this.setState({
             triggered : true

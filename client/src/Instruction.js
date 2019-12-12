@@ -1,10 +1,7 @@
 import React from 'react';
 
 class Instruction extends React.Component {
-    constructor() {
-        super();
-    }
-
+    
     render() {
         
         let sentence;

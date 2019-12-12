@@ -8,9 +8,6 @@ import Testimonials from './Testimonials';
 import './Home.css';
 
 class Home extends React.Component {
-  constructor() {
-    super();
-  }
 
   render() {
     return(
