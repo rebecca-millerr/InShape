@@ -196,6 +196,7 @@ class SignUp extends React.Component {
         }
 
         const hashedPassword = passwordHash.generate(this.state.password);
+        console.log(passwordHash.verify(this.state.password, hashedPassword));
 
         let allergies = new Array(5);
 

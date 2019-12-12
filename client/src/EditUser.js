@@ -26,6 +26,8 @@ class SignUp extends React.Component {
             activity   : "",
             diet       : "",
 
+            hashedPassword : "",
+
             currAllergy : "",
             allergies   : [],
             lastKey     : -1,
@@ -39,6 +41,8 @@ class SignUp extends React.Component {
             updated        : false
         }
 
+        this.getUserInfo = this.getUserInfo.bind(this);
+
         this.handleChange  = this.handleChange.bind(this);
         this.clickToDelete = this.clickToDelete.bind(this);
         this.hover         = this.hover.bind(this);
@@ -46,10 +50,45 @@ class SignUp extends React.Component {
 
     }
 
-    componentDidMount() {
-        // update state with data from database
-        // set units to pounds by default
+    async componentDidMount() {
+        
+        // const response = await fetch('/info/' + this.props.username);
+        // console.log(response)
+        // const json = await response.json();
+        // console.log(json);
+
+        // let json;
+
+        // while ( !json || !json.username ) {
+        // json = this.getUserInfo();
+        // }
+        // const response = await fetch('/info/' + this.props.username);
+        // console.log(response)
+        // const json = await response.json();
+        // console.log(json);
+
+        // this.setState({
+        //     username       : json.username,
+        //     email          : json.email,
+        //     units          : json.units,
+        //     gender         : json.sex,
+        //     height         : json.height,
+        //     currWeight     : json.weight,
+        //     goalWeight     : json.goal_weight,
+        //     age            : json.age,
+        //     activity       : json.activity,
+        //     diet           : json.diet,
+        //     hashedPassword : json.password
+        // })
         // sort out allergies, give them keys
+    }
+
+    async getUserInfo() {
+        const response = await fetch('/info/' + this.props.username);
+        console.log(response)
+        const json = await response.json();
+        console.log(json);
+        return json;
     }
 
     handleChange(event) {
@@ -116,6 +155,8 @@ class SignUp extends React.Component {
                     allergyHidden : ! prevState.allergyHidden
                 }));
                 break;
+            default:
+                break;
         }
         
     }
@@ -140,6 +181,8 @@ class SignUp extends React.Component {
                 break;
             case 'veryHeavy':
                 activityMult = 1.9;
+                break;
+            default:
                 break;
         }
 
@@ -209,8 +252,6 @@ class SignUp extends React.Component {
         });
 
         // TODO: feed this as current user to database
-
-        this.props.validate();
     }
 
     render() {
@@ -276,9 +317,6 @@ class SignUp extends React.Component {
 
         const ageUnits = 'yrs';
 
-        // TODO: work out ID
-        // TODO: track create date
-
         return(
             <div className = "SignUpPage">
                 <h1 className = "SignUpHeading">Has something changed? Update us!</h1>
@@ -310,7 +348,7 @@ class SignUp extends React.Component {
                         placeholder = {this.state.username}
                         value = {this.state.username}
                         className = "TextField LongField" 
-                        readonly
+                        readOnly
                     />
                     <input 
                         type = "email"

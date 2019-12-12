@@ -39,18 +39,25 @@ class App extends React.Component {
   }
 
   async getCurrentUser() {
-    
+
     const response = await fetch('/current');
     console.log(response);
-    const data     = await response.json();
+    const data  = await response.json();
     console.log(data);
     
-    if ( data[0] ) {
+    if ( data && !data[0] ) {
+      console.log("still legit")
+      this.setState({
+        currUser : data.username
+      })
+    }
+    else if ( data[0] ) {
       console.log("legit")
       this.setState({
         currUser : data[0].username
       })
     }
+    
 
     if ( !this.state.currUser || this.state.currUser === '---' ) {
       console.log('nope')
@@ -77,6 +84,8 @@ class App extends React.Component {
     console.log('in log out')
     const response = await fetch('/log_out');
     console.log(response)
+    const text = await response.json()
+    console.log(text)
     this.getCurrentUser();
   }
 
@@ -119,7 +128,7 @@ class App extends React.Component {
       navItems[4] = ({
         num               : 5,
         text              : 'Log Out',
-        url               : '/',
+        url               : '#',
         changePermissions : this.logOut,
         className         : 'LogInOutLink',
         dropdown          : true,
@@ -181,7 +190,9 @@ class App extends React.Component {
               <Route path = "/log-in">
                 <LogIn validate = {this.logIn} />
               </Route>
-              <Route path = "/edit-user" component = {EditUser} />
+              <Route path = "/edit-user">
+                <EditUser username = {this.state.username} exit = {this.logOut} />
+              </Route>
               <Route path = "/meals">
                 <Meals username = {this.state.username} />
               </Route>
