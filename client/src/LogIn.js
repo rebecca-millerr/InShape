@@ -23,6 +23,11 @@ class LogIn extends Component {
     }
 
     async authenticate() {
+      
+        const status = await fetch('/log_in/' + this.state.username);
+        console.log(status)
+        const json = await status.text(); // .json()
+        console.log(json);
         
         const response = await fetch('/info/' + this.state.username);
         console.log(response)

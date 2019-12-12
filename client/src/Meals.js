@@ -31,14 +31,58 @@ class Meals extends React.Component {
       loading : true
     });
 
-    // fetch /info/:username for this username GET (easier) LogIn.js
-    // get json
+    let allergies = new Array(5); // initialize allergies array
 
-    let allergies = new Array(5);
-    //allergies[0] = allergy1;
-    //allergies[1] = allergy2;
-    // ...
+      const response = await fetch('/info/' + this.props.username); // get data
+      console.log(response)
+      const json = response.json() // data to json
+      const allAllergies = { 
+        username : json.username, 
+        allergies[0] : json.allergy1,
+        allergies[1] : json.allergy2,
+        allergies[2] : json.allergy3,
+        allergies[3] : json.allergy4, 
+        allergies[4] : json.allergy5 
+      }
+      console.log(json);
 
+      // turn array into comma separated list
+      document.write(arr.toString())
+
+      // use for loops to go through the 5 things in the array (array.length) 
+      for (const i of allergies) { 
+        if (allergies[i] = 'none') {
+          return null
+        }
+        else {
+          console.log(allergies[i]);
+        }
+      }
+      this.setState({
+        allergies : allergies
+      });
+
+    // get calories and make calories state
+    const calories = json.calories 
+    console.log(calories)
+
+    this.setState({
+      calories : calories
+    });
+
+    // get diet and account for 'none' and make diet state
+    const diet = json.diet 
+    console.log(diet)
+    if (diet == 'none') {
+      diet = 'null'
+    }
+    else {
+      diet = diet
+    }
+
+    this.setState({
+      diet : diet
+    });
 
     // assign state from diet, calories, and this.state.allergies from allergies
 
@@ -51,7 +95,6 @@ class Meals extends React.Component {
     this.setState({
       loading : false
     });
-  }
 
   fetchMeals() {
 
