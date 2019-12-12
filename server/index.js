@@ -87,11 +87,6 @@ app.get('/createcurrenttable', (req, res) => {
     });
 });
 
-// const request = require('request');
-// request('/createdb');
-// request('/createuserstable');
-// request('/createcurrenttable');
-
 // add user
 app.post('/add', (req, res) => {
 
@@ -115,41 +110,38 @@ app.post('/add', (req, res) => {
     let calories    = req.body.calories;
     let units       = req.body.units;
 
-    // db.query("DESCRIBE `users`;", (err, result) => {
-    //     if ( err ) {
-    //         res.json(err);
-    //     }
-    //     else {
-    //         res.json(result);
-    //     }
-    // })
-
-    let usernameQuery = "SELECT * FROM users WHERE username = '" + username + "';";
+    let usernameQuery = "SELECT * FROM users WHERE username = '" 
+                        + username + "';";
 
     db.query(usernameQuery, (err, result) => {
 
         if (err) {
             res.json(err);
-            // return res.status(500).send(err);
         }
         // if querying the username returns a result
         if (result.length > 0) {
-            res.json("user exists");
-            console.log("User exists");
+            res.json({ "status" : "failed" });
         } else {
             // send the user's details to the database
-            let query = "INSERT INTO `users` (username, first_name, last_name, email, password, age, sex, height, weight, goal_weight, activity, diet, allergy1, allergy2, allergy3, allergy4, allergy5, calories, units) VALUES ('" + 
-                         username + "', '" + first_name + "', '" + last_name + "', '" + email + "', '" + password + "', '" + age + "', '" + sex + "', '" + height + "', '"  + weight + "', '" + goal_weight + "', '" + activity + "', '" + diet + "', '" + allergy1 + "', '" + allergy2 + "', '" + allergy3 + "', '" + allergy4 + "', '" + allergy5 + "', '" + calories + "', '" + units + "');";
+            let query = "INSERT INTO `users` (username, first_name, "
+                        + "last_name, email, password, age, sex, height, "
+                        + "weight, goal_weight, activity, diet, allergy1, "
+                        + "allergy2, allergy3, allergy4, allergy5, calories, "
+                        + "units) VALUES ('" + username + "', '" + first_name 
+                        + "', '" + last_name + "', '" + email + "', '" 
+                        + password + "', '" + age + "', '" + sex + "', '" 
+                        + height + "', '"  + weight + "', '" + goal_weight 
+                        + "', '" + activity + "', '" + diet + "', '" 
+                        + allergy1 + "', '" + allergy2 + "', '" + allergy3 
+                        + "', '" + allergy4 + "', '" + allergy5 + "', '" 
+                        + calories + "', '" + units + "');";
             
             db.query(query, (err, result) => {
                 if (err) {
-                    console.log(err)
                     res.json(err);
-                    // return res.status(500).send(err);
                 }
                 else {
                     res.json({ "status" : "success" });
-                    res.redirect('/'); //set link to wherever next
                 }
             });
         }
@@ -217,45 +209,58 @@ app.get('/info/:username', function(req, res) {
 
 //get current username
 app.get('/current', function(req, res) {
-    let usernameQuery = "SELECT username FROM inshape.current_user;";
+    let usernameQuery = "SELECT username FROM heroku_e96bd86a9e3395b.current_user;";
+
     db.query(usernameQuery, (err, result) => {
         if (err) {
-            return res.status(500).send(err)
+            res.json(err);
         }
-        if (result.length == 0) {
-            console.log("Not logged in");
+        else if (result.length === 0) {
+            res.json({ "username" : "---" });
         }
-        else
-            res.send(result);
+        else {
+            res.json(result);
+        }
     });
 });
 
-//TODO: If username exists or not
 //log in current user
 app.get('/log_in/:username', function(req, res) {
+    let deleteUserQuery = 'DELETE FROM heroku_e96bd86a9e3395b.current_user;';    
+    db.query(deleteUserQuery, (err, result) => {
+        if (err) {
+            res.json(err);
+            // return res.status(500).send(err)
+        }
+        else {
+            res.json("deleted")
+            res.redirect('/'); //set link to wherever next
+        }
+    });
     let username = req.params.username;
     let addUserQuery = "INSERT INTO `current_user` (username) VALUES ('" + username + "');";
     db.query(addUserQuery, (err, result) => {
         if (err) {
             res.json({ "status" : "failed" })
-            return res.status(500).send(err)
         }
         else {
             res.json({ "status" : "success" })
-            res.redirect('/'); //set link to wherever next
         }
     });
 });
 
 //log out current user
 app.get('/log_out', function(req, res) {
-    let deleteUserQuery = 'DELETE FROM inshape.current_user;';    
+    let deleteUserQuery = 'DELETE FROM heroku_e96bd86a9e3395b.current_user;';    
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
-            return res.status(500).send(err)
+            res.json(err);
+            // return res.status(500).send(err)
         }
-        else
+        else {
+            res.json("deleted")
             res.redirect('/'); //set link to wherever next
+        }
     });
 });
 

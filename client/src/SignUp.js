@@ -211,7 +211,7 @@ class SignUp extends React.Component {
             }
         }
 
-        const status = await fetch('/add', {
+        const response = await fetch('/add', {
             body: JSON.stringify({ 
                 username    : this.state.username,
                 first_name  : this.state.firstName,
@@ -238,34 +238,44 @@ class SignUp extends React.Component {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(status)
-        const json = await status.text();
+        console.log(response)
+        const json = await response.json();
         console.log(json);
 
-        this.setState({
-            firstName  : "",
-            lastName   : "",
-            username   : "",
-            password   : "",
-            password2  : "",
-            email      : "",
-            units      : "",
-            gender     : "",
-            height     : "",
-            currWeight : "",
-            goalWeight : "",
-            age        : "",
-            activity   : "",
-            diet       : "",
+        if ( json.status === 'failed' ) {
+            return;
+        }
+        else if ( json.status === 'success' ) {
+            const login = await fetch('/log_in/' + this.state.username);
+            console.log(login);
+            const text = await login.json();
+            console.log(text)
 
-            currAllergy : "",
-            allergies   : [],
-            lastKey     : -1,
+            this.setState({
+                firstName  : "",
+                lastName   : "",
+                username   : "",
+                password   : "",
+                password2  : "",
+                email      : "",
+                units      : "",
+                gender     : "",
+                height     : "",
+                currWeight : "",
+                goalWeight : "",
+                age        : "",
+                activity   : "",
+                diet       : "",
 
-            loggedIn    : true
-        });
+                currAllergy : "",
+                allergies   : [],
+                lastKey     : -1,
 
-        this.props.validate();
+                loggedIn    : true
+            });
+
+            this.props.validate();
+        }   
     }
 
     render() {
@@ -274,6 +284,7 @@ class SignUp extends React.Component {
             return(
                 <div className = "SignUpPage">
                     <h1 className = "SignUpHeading">All done!</h1>
+                    <h3 className = "SignUpReminder">Be sure to log out when you're done!</h3>
                 </div>
             )
         }
@@ -564,7 +575,7 @@ class SignUp extends React.Component {
                         </div>
                         <br />
                         <div className = "WideRadioBlock">
-                            <label className = "RadioOption FirstOption">
+                            <label className = "RadioOption">
                                 <input
                                     type = "radio"
                                     name = "activity"
@@ -655,7 +666,7 @@ class SignUp extends React.Component {
                         </div>
                         <br />
                         <div className = "WideRadioBlock">    
-                            <label className = "RadioOptionClose FirstOption">
+                            <label className = "RadioOptionClose">
                                 <input
                                     type = "radio"
                                     name = "diet"
@@ -716,7 +727,7 @@ class SignUp extends React.Component {
                         </div>
                         <br />
                         <div className = "WideRadioBlock">
-                            <label className = "RadioOptionClose FirstOption">
+                            <label className = "RadioOptionClose">
                                 <input
                                     type = "radio"
                                     name = "diet"

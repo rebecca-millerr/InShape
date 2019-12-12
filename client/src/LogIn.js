@@ -24,8 +24,13 @@ class LogIn extends Component {
     async authenticate() {
         const status = await fetch('/log_in/' + this.state.username);
         console.log(status)
-        const json = await status.text();
+        const json = await status.text(); // .json()
         console.log(json);
+        // json = { username : asdjknad, first_name = akajsnkaj ... }
+        // console.log(json.username)
+        // json is object with all info
+        // because /log_in/ only returns username
+        // /info would return everything
 
         // clear state
         this.setState({

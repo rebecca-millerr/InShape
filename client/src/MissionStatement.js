@@ -4,9 +4,6 @@ import React from 'react';
 import './MissionStatement.css';
 
 class MissionStatement extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(

@@ -18,104 +18,66 @@ import EditUser from './EditUser';
 import './App.css';
 
 class App extends React.Component {
-  // TODO?
   constructor(props) {
     super(props)
-    /*this.callBackendAPI = this.callBackendAPI.bind(this)*/
+
     this.state = {
       data     : null, // IDK
-      loggedIn : false
+      loggedIn : false,
+      currUser : null
     }
 
-    this.logInOut = this.logInOut.bind(this);
-    this.blank    = this.blank.bind(this);
+    this.logIn  = this.logIn.bind(this);
+    this.logOut = this.logOut.bind(this);
+    this.blank  = this.blank.bind(this);
 
-    this.callBackendAPI = this.callBackendAPI.bind(this);
+    this.getCurrentUser = this.getCurrentUser.bind(this);
   }
 
-  // TODO?
-  // TODO: Fetch in react component tree
-  async componentDidMount() {
+  componentDidMount() {
+    this.getCurrentUser();
+  }
 
-    // await fetch('/api').then((response) => {
-    //   console.log(response);
-    //   response.text().then(data => {
-    //       console.log(data);
-    //   });
-    // })
-
-    // const testObj = {
-    //   body: JSON.stringify({"test" : "obj"}),
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }
-
-    // const response = await fetch('/testpost', {
-    //   body: JSON.stringify({ test : "obj" }),
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // });
-    // console.log(response)
-    // const json = await response.text();
-    // console.log(json);
-      // .then(response => response.json()
-      //   .then(data => console.log(data))
-      // )
-
-    // const response2 = await fetch('/add', {
-    //   body: JSON.stringify({ 
-    //     test : "obj" 
-    //   }),
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // });
+  async getCurrentUser() {
     
+    const response = await fetch('/current');
+    console.log(response);
+    const data     = await response.json();
+    console.log(data);
+    
+    if ( data[0] ) {
+      console.log("legit")
+      this.setState({
+        currUser : data[0].username
+      })
+    }
+
+    if ( !this.state.currUser || this.state.currUser === '---' ) {
+      console.log('nope')
+      this.setState({
+        loggedIn : false
+      })
+    }
+    else {
+      console.log('yep')
+      this.setState({
+        loggedIn : true
+      })
+    }
   }
 
-    // this.callBackendAPI()
-      // .then(res => console.log(res));
-    // .then(res => {
-    //   this.setState({ data: res.express })})
-    // .catch(err => console.log(err));
-  // }
-
-  // TODO?
-  async callBackendAPI() {
-    // await fetch('/api').then((response) => {
-    //   console.log(response);
-    //   response.json().then((data) => {
-    //       console.log(data);
-    //   });
-    // });
-
-    // data = await fetch('/api');
-      //.then(response => response.json())
-      // .then(data => {
-      //   console.log(data);
-      // })
-    //     this.setState({
-    //       data : data
-    //     });
-
-    //const response = await fetch('/api');
-    //const body = await response.json();
-    // if (response.status !== 200) {
-    //   throw Error(body.message) 
-    // }
-    //return body;
-    // return response;
+  logIn() {
+    console.log('in log in')
+    this.setState({
+      loggedIn : true
+    });
   }
 
-  logInOut() {
-    this.setState(prevState => ({
-      loggedIn : ! prevState.loggedIn
-    }));
+  async logOut() {
+    console.log('in log out')
+    const response = await fetch('/log_out');
+    console.log(response)
+    this.getCurrentUser();
   }
 
   blank() {
@@ -158,7 +120,7 @@ class App extends React.Component {
         num               : 5,
         text              : 'Log Out',
         url               : '/',
-        changePermissions : this.logInOut,
+        changePermissions : this.logOut,
         className         : 'LogInOutLink',
         dropdown          : true,
         dropdownText      : 'Edit User',
@@ -214,13 +176,15 @@ class App extends React.Component {
             <Switch>
               <Route exact path = "/" component = {Home} />
               <Route path = "/sign-up">
-                <SignUp validate = {this.logInOut} />
+                <SignUp validate = {this.logIn} />
               </Route>
               <Route path = "/log-in">
-                <LogIn validate = {this.logInOut} />
+                <LogIn validate = {this.logIn} />
               </Route>
               <Route path = "/edit-user" component = {EditUser} />
-              <Route path = "/meals" component = {Meals} />
+              <Route path = "/meals">
+                <Meals username = {this.state.username} />
+              </Route>
               <Route path = "/exercises" component = {Exercises} />
               <Route path = "/contact" component = {Contact} />
             </Switch>

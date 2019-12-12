@@ -3,9 +3,6 @@ import React from 'react';
 import './OneExercise.css';
 
 class OneExercise extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(

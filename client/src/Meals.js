@@ -10,11 +10,13 @@ class Meals extends React.Component {
     super();
     this.state = {
       loading   : false,
-      data      : null,
-      recipes   : [],
+
       calories  : null,
       diet      : null,
       allergies : null,
+
+      data      : null,
+      recipes   : [],
       food      : []
     };
 
@@ -29,16 +31,22 @@ class Meals extends React.Component {
       loading : true
     });
 
-    // TODO: make these state, update here
-    // API parameters
+    // fetch /info/:username for this username GET (easier) LogIn.js
+    // get json
+
+    let allergies = new Array(5);
+    //allergies[0] = allergy1;
+    //allergies[1] = allergy2;
+    // ...
+
+
+    // assign state from diet, calories, and this.state.allergies from allergies
+
     this.setState({
       calories  : 1800,
       diet      : 'none',
       allergies : 'peanut',
     }, this.fetchMeals);
-    // TODO: get from database
-    // TODO: get from database
-    // TODO: get from database, array
 
     this.setState({
       loading : false
@@ -47,69 +55,69 @@ class Meals extends React.Component {
 
   fetchMeals() {
 
-    // let counter = 0;
-    // fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
-    //       + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
-    //       + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
-    //       + "&exclude" + this.state.allergies)
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.setState({
-    //       data : data
-    //     });
-    //     counter++;
-    //     if ( counter === 1 ) {
-    //       this.fetchRecipes();
-    //     };
-    //   });
+    let counter = 0;
+    fetch("https://api.spoonacular.com/recipes/mealplans/generate?" 
+          + "apiKey=048a26721a2a416a944e45becc2d10aa&timeFrame=day"
+          + "&targetCalories=" + this.state.calories + "&diet=" + this.state.diet 
+          + "&exclude" + this.state.allergies)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data : data
+        });
+        counter++;
+        if ( counter === 1 ) {
+          this.fetchRecipes();
+        };
+      });
   }
 
   async fetchRecipes() {
 
-    // let counter = 0;
-    // for ( let i = 0; i < 3; i++ ) {
+    let counter = 0;
+    for ( let i = 0; i < 3; i++ ) {
       
-    //   await fetch("https://api.spoonacular.com/recipes/" 
-    //               + this.state.data.meals[i].id 
-    //               + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
-    //               + "&includeNutrition=true")
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       let tempRecipes = this.state.recipes.slice(0);
-    //       tempRecipes.push(data);
-    //       this.setState({
-    //         recipes : tempRecipes
-    //       });  
-    //       counter++;
-    //     });
+      await fetch("https://api.spoonacular.com/recipes/" 
+                  + this.state.data.meals[i].id 
+                  + "/information?apiKey=048a26721a2a416a944e45becc2d10aa"
+                  + "&includeNutrition=true")
+        .then(response => response.json())
+        .then(data => {
+          let tempRecipes = this.state.recipes.slice(0);
+          tempRecipes.push(data);
+          this.setState({
+            recipes : tempRecipes
+          });  
+          counter++;
+        });
 
-    //     if ( counter === 3 ) {
-    //       this.makeFood();
-    //     }
-    // }
+        if ( counter === 3 ) {
+          this.makeFood();
+        }
+    }
   }
 
   makeFood() {
 
-    // for ( let i = 0; i < 3; i++ ) {
-    //   let tempFood = this.state.food.slice(0);
-    //   const oneFood = {
-    //     id             : i + 1,
-    //     name           : this.state.data.meals[i].title,
-    //     prepTime       : this.state.data.meals[i].readyInMinutes,
-    //     percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
-    //     percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
-    //     percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
-    //     ingredients    : this.state.recipes[i].nutrition.ingredients,
-    //     instructions   : this.state.recipes[i].instructions
-    //   }
+    for ( let i = 0; i < 3; i++ ) {
+      let tempFood = this.state.food.slice(0);
+      const oneFood = {
+        id             : i + 1,
+        name           : this.state.data.meals[i].title,
+        prepTime       : this.state.data.meals[i].readyInMinutes,
+        percentCarbs   : this.state.recipes[i].nutrition.caloricBreakdown.percentCarbs,
+        percentFat     : this.state.recipes[i].nutrition.caloricBreakdown.percentFat,
+        percentProtein : this.state.recipes[i].nutrition.caloricBreakdown.percentProtein,
+        ingredients    : this.state.recipes[i].nutrition.ingredients,
+        instructions   : this.state.recipes[i].instructions
+      }
 
-    //   tempFood.push(oneFood);
+      tempFood.push(oneFood);
 
-    //   this.setState({
-    //     food : tempFood
-    //   });
-    // }
+      this.setState({
+        food : tempFood
+      });
+    }
   }
 
   render() {

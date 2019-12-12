@@ -3,9 +3,6 @@ import React from 'react';
 import './Testimonials.css';
 
 class Testimonials extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(

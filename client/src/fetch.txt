@@ -1,0 +1,24 @@
+App.js
+	/current : GET checks if a user is currently logged in
+	pass it to necessary child components as props
+	/log_out : GET make log out button empty current user table
+
+EditUser.js
+	receive as props the current user
+	/info/:username : GET get current info
+	/edit/:username : POST change current user info
+	/delete/:username : GET deletes current user THEN
+		/log_out : empty current user
+
+LogIn.js
+	/info/:username : GET get current user info (check if current username exists,
+	if so, validate password)
+	/log_in/:username : GET add this username to current user table
+
+Meals.js
+	/info/:username : GET get user info for calories, diet, and allergies
+
+SignUp.js
+	/add : POST adds user to users table
+	/log_in/:username : GET make this user the current user
+

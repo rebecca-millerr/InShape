@@ -3,9 +3,6 @@ import React from 'react';
 import './MealSummary.css';
 
 class MealSummary extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         const calories = Math.round(this.props.cals) + ' calories'

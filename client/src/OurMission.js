@@ -3,9 +3,6 @@ import React from 'react';
 import './OurMission.css';
 
 class OurMission extends React.Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return(
