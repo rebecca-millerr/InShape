@@ -26,11 +26,6 @@ class LogIn extends Component {
         console.log(status)
         const json = await status.text(); // .json()
         console.log(json);
-        // json = { username : asdjknad, first_name = akajsnkaj ... }
-        // console.log(json.username)
-        // json is object with all info
-        // because /log_in/ only returns username
-        // /info would return everything
 
         // clear state
         this.setState({
