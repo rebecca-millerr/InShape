@@ -38,7 +38,8 @@ class SignUp extends React.Component {
             dietHidden     : true,
             allergyHidden  : true,
 
-            updated        : false
+            updated        : false,
+            loggedIn       : false
         }
 
         this.getUserInfo = this.getUserInfo.bind(this);
@@ -46,49 +47,111 @@ class SignUp extends React.Component {
         this.handleChange  = this.handleChange.bind(this);
         this.clickToDelete = this.clickToDelete.bind(this);
         this.hover         = this.hover.bind(this);
-        this.calculate     = this.calculate.bind(this);
 
+        this.calculate  = this.calculate.bind(this);
+        this.deleteUser = this.deleteUser.bind(this);
     }
 
     async componentDidMount() {
         
-        // const response = await fetch('/info/' + this.props.username);
-        // console.log(response)
-        // const json = await response.json();
-        // console.log(json);
-
-        // let json;
-
-        // while ( !json || !json.username ) {
-        // json = this.getUserInfo();
-        // }
-        // const response = await fetch('/info/' + this.props.username);
-        // console.log(response)
-        // const json = await response.json();
-        // console.log(json);
-
-        // this.setState({
-        //     username       : json.username,
-        //     email          : json.email,
-        //     units          : json.units,
-        //     gender         : json.sex,
-        //     height         : json.height,
-        //     currWeight     : json.weight,
-        //     goalWeight     : json.goal_weight,
-        //     age            : json.age,
-        //     activity       : json.activity,
-        //     diet           : json.diet,
-        //     hashedPassword : json.password
-        // })
-        // sort out allergies, give them keys
+        setTimeout(async () => {
+            await this.getUserInfo();
+        }, 500);
     }
 
     async getUserInfo() {
+        
+        setTimeout(async () => {
+            await this.setState({
+                loggedIn : this.props.username === '---' ? false : true
+            })
+        }, 500);
+
+        if ( !this.state.loggedIn ) {
+            return;
+        }
+
         const response = await fetch('/info/' + this.props.username);
-        console.log(response)
         const json = await response.json();
-        console.log(json);
-        return json;
+        const user = json[0];
+
+        // parsing allergies
+        let allergies = new Array(5);
+        let allergyObjects = [];
+
+        allergies[0] = user.allergy1;
+        allergies[1] = user.allergy2;
+        allergies[2] = user.allergy3;
+        allergies[3] = user.allergy4; 
+        allergies[4] = user.allergy5;
+
+        // use for loops to go through the 5 things in the array (array.length) 
+        for ( let i = 0; i < allergies.length; i++ ) { 
+            if ( allergies[i] === null || allergies[i] === 'undefined' ) {
+                allergies = allergies.splice(0, i);
+                break;
+            }
+        }
+
+        for ( let i = 0; i < allergies.length; i++ ) {
+            allergyObjects.push({
+                allergy : allergies[i],
+                id      : i + 1
+            });
+        }
+
+        let gender;
+
+        switch(user.sex) {
+            case 'm':
+                gender = 'male';
+                break;
+            case 'f':
+                gender = 'female';
+                break;
+            default:
+                break;
+        }
+
+        // parsing activity
+        let activity;
+
+        switch(user.activity) {
+            case 1:
+                activity = 'verLight';
+                break;
+            case 2:
+                activity = 'light';
+                break;
+            case 3:
+                activity = 'moderate';
+                break;
+            case 4:
+                activity = 'heavy';
+                break;
+            case 5:
+                activity = 'veryHeavy';
+                break;
+            default:
+                break;
+        }
+        
+        this.setState({
+            firstName      : user.first_name,
+            lastName       : user.last_name,
+            username       : user.username,
+            email          : user.email,
+            units          : user.units,
+            gender         : gender,
+            height         : user.height,
+            currWeight     : user.weight,
+            goalWeight     : user.goal_weight,
+            age            : user.age,
+            activity       : activity,
+            diet           : user.diet,
+            allergies      : allergyObjects,
+            hashedPassword : user.password
+        })
     }
 
     handleChange(event) {
@@ -161,7 +224,20 @@ class SignUp extends React.Component {
         
     }
 
-    calculate() {
+    async calculate() {
+
+        let sex;
+
+        switch(this.state.gender) {
+            case 'male':
+                sex = 'm';
+                break;
+            case 'female':
+                sex = 'f';
+                break;
+            default:
+                break;
+        }
 
         // calorie intake calculation
         let activityMult;
@@ -186,6 +262,19 @@ class SignUp extends React.Component {
                 break;
         }
 
+        let height, currWeight, goalWeight;
+
+        if ( this.state.units === 'metric' ) {
+            height     = this.state.height / 2.54;
+            currWeight = this.state.currWeight * 2.205;
+            goalWeight = this.state.goalWeight * 2.205;
+        }
+        else {
+            height     = this.state.height;
+            currWeight = this.state.currWeight;
+            goalWeight = this.state.goalWeight;
+        }
+
         let bmr, calories;
 
         if ( this.state.gender === 'male' ) {
@@ -201,6 +290,12 @@ class SignUp extends React.Component {
 
         calories = bmr * activityMult;
 
+        if ( currWeight > goalWeight ) {
+            calories -= 500;
+        }
+        else if ( currWeight < goalWeight ) {
+            calories += 500;
+        }
 
         // password validation and hashing
         if ( this.state.password !== this.state.password2 ) {
@@ -208,25 +303,79 @@ class SignUp extends React.Component {
             return;
         }
 
-        const hashedPassword = passwordHash.generate(this.state.password);
+        let hashedPassword;
 
-        // send to database
-        // send first name
-        // send last name
-        // send username
-        // send email
-        // send hashed password
-        // send age
-        // send gender
-        // send height
-        // send current weight
-        // send goal weight
-        // send height
-        // send activity level
-        // send calories
-        // send diet
-        // send allergies
-        // send created
+        if ( this.state.password ) {
+            hashedPassword = passwordHash.generate(this.state.password);    
+        }
+        else {
+            hashedPassword = this.state.hashedPassword;
+        }
+
+        let allergies = new Array(5);
+
+        // copy state allergies into new array
+        for ( let i = 0; i < this.state.allergies.length; i++ ) {
+            allergies[i] = this.state.allergies[i].allergy;
+        }
+
+        // fill extra slots with null
+        for ( let i = 0; i < 5; i++ ) {
+            if ( allergies.length <= i ) {
+                allergies[i] = null;
+            }
+        }
+
+        // parsing activity
+        let activity;
+
+        switch(this.state.activity) {
+            case 'veryLight':
+                activity = 1;
+                break;
+            case 'light':
+                activity = 2;
+                break;
+            case 'moderate':
+                activity = 3;
+                break;
+            case 'heavy':
+                activity = 4;
+                break;
+            case 'veryHeavy':
+                activity = 5;
+                break;
+            default:
+                break;
+        }
+
+        await fetch('/edit/' + this.state.username, {
+            body: JSON.stringify({ 
+                username    : this.state.username,
+                first_name  : this.state.firstName,
+                last_name   : this.state.lastName,
+                email       : this.state.email,
+                password    : hashedPassword,
+                age         : this.state.age,
+                sex         : sex,
+                height      : height,
+                weight      : currWeight,
+                goal_weight : goalWeight,
+                activity    : activity,
+                diet        : this.state.diet,
+                allergy1    : allergies[0],
+                allergy2    : allergies[1],
+                allergy3    : allergies[2],
+                allergy4    : allergies[3],
+                allergy5    : allergies[4],
+                calories    : calories,
+                units       : this.state.units
+            }),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
         this.setState({
             firstName  : "",
@@ -243,18 +392,32 @@ class SignUp extends React.Component {
             age        : "",
             activity   : "",
             diet       : "",
+            hashedPassword : "",
 
             currAllergy : "",
             allergies   : [],
             lastKey     : -1,
 
-            updated     : true
+            loggedIn    : true
         });
+    }
 
-        // TODO: feed this as current user to database
+    async deleteUser() {
+        await fetch('/delete/' + this.state.username);
+        this.props.exit();
     }
 
     render() {
+
+        if ( !this.state.loggedIn ) {
+            return (
+                <div className = "SignUpPage">
+                    <h1 className = "SignUpHeading">
+                        Log in to see this page!
+                    </h1>
+                </div>
+            )
+        }
 
         if ( this.state.updated ) {
             return(
@@ -320,13 +483,14 @@ class SignUp extends React.Component {
         return(
             <div className = "SignUpPage">
                 <h1 className = "SignUpHeading">Has something changed? Update us!</h1>
+                <h3 className = "SignUpReminder">If you'd like to change your password, be sure to enter it in both slots below. Otherwise, it will stay the same.</h3>
                 <form className = "FormBox">
                     <input 
                         type = "text" 
                         name = "firstName"
                         placeholder = "First Name"
                         onChange = {this.handleChange}
-                        value = {this.state.firstName}
+                        value = {this.state.firstName || ''}
                         className = "TextField LongField"
                         required
                     />
@@ -335,7 +499,7 @@ class SignUp extends React.Component {
                         name = "lastName"
                         placeholder = "Last Name"
                         onChange = {this.handleChange}
-                        value = {this.state.lastName}
+                        value = {this.state.lastName || ''}
                         className = "TextField LongField"
                         required
                     />
@@ -346,7 +510,7 @@ class SignUp extends React.Component {
                         type = "text"
                         name = "username"
                         placeholder = {this.state.username}
-                        value = {this.state.username}
+                        value = {this.state.username || ''}
                         className = "TextField LongField" 
                         readOnly
                     />
@@ -355,7 +519,7 @@ class SignUp extends React.Component {
                         name = "email"
                         placeholder = "Email"
                         onChange = {this.handleChange}
-                        value = {this.state.email}
+                        value = {this.state.email || ''}
                         className = "TextField LongField" 
                         required
                     />
@@ -366,7 +530,7 @@ class SignUp extends React.Component {
                         name = "password"
                         placeholder = "Password"
                         onChange = {this.handleChange}
-                        value = {this.state.password}
+                        value = {this.state.password || ''}
                         className = "TextField LongField" 
                         required
                     />
@@ -375,7 +539,7 @@ class SignUp extends React.Component {
                         name = "password2"
                         placeholder = "Confirm Password"
                         onChange = {this.handleChange}
-                        value = {this.state.password2}
+                        value = {this.state.password2 || ''}
                         className = "TextField LongField" 
                         required
                     />
@@ -483,7 +647,7 @@ class SignUp extends React.Component {
                             pattern = "[0-9]+"
                             placeholder = "Height"
                             onChange = {this.handleChange}
-                            value = {this.state.height}
+                            value = {this.state.height || ''}
                             className = "TextField ShortField" 
                             required
                         />
@@ -498,7 +662,7 @@ class SignUp extends React.Component {
                             pattern = "[0-9]+"
                             placeholder = "Current Weight"
                             onChange = {this.handleChange}
-                            value = {this.state.currWeight}
+                            value = {this.state.currWeight || ''}
                             className = "TextField ShortField" 
                             required
                         />
@@ -513,7 +677,7 @@ class SignUp extends React.Component {
                             pattern = "[0-9]+"
                             placeholder = "Goal Weight"
                             onChange = {this.handleChange}
-                            value = {this.state.goalWeight}
+                            value = {this.state.goalWeight || ''}
                             className = "TextField ShortField"
                             required
                         />
@@ -528,7 +692,7 @@ class SignUp extends React.Component {
                             pattern = "[0-9]+"
                             placeholder = "Age"
                             onChange = {this.handleChange}
-                            value = {this.state.age}
+                            value = {this.state.age || ''}
                             className = "TextField ShortField"
                             required
                         />
@@ -806,6 +970,7 @@ class SignUp extends React.Component {
                         <div onClick = {this.calculate} className = "SubmitButton">Submit</div>
                     </div>  
                 </form>
+                <div onClick = {this.deleteUser} className = "SubmitButton">Delete User</div>
             </div>
         )
     }

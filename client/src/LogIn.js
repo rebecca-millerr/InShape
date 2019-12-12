@@ -24,15 +24,8 @@ class LogIn extends Component {
 
     async authenticate() {
       
-        const status = await fetch('/log_in/' + this.state.username);
-        console.log(status)
-        const json = await status.text(); // .json()
-        console.log(json);
-        
-        const response = await fetch('/info/' + this.state.username);
-        console.log(response)
-        const json = await response.json();
-        console.log(json)
+        const status = await fetch('/info/' + this.state.username);
+        const json = await status.json();
 
         let hashedPassword;
 
@@ -43,15 +36,13 @@ class LogIn extends Component {
         else {
             hashedPassword = json[0].password;
             const matchingPasswords = passwordHash.verify(this.state.password, hashedPassword);
-            console.log(matchingPasswords);
 
             if ( !matchingPasswords ) {
                 alert('Invalid login credentials. Try again!');
                 return;
             }
             else {
-                const status = await fetch('/log_in/' + this.state.username);
-                console.log(status)
+                await fetch('/log_in/' + this.state.username);
 
                 this.setState({
                     loggedIn : true
@@ -59,18 +50,7 @@ class LogIn extends Component {
 
                 this.props.validate();
             }
-
         }
-
-        
-        // json = { username : asdjknad, first_name = akajsnkaj ... }
-        // console.log(json.username)
-        // json is object with all info
-        // because /log_in/ only returns username
-        // /info would return everything
-
-        // clear state
-        
     }
 
     render() {

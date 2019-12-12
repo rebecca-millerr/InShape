@@ -28,7 +28,9 @@ app.post('/testpost', (req, res) => {
 
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection({
+
+// const db = mysql.createConnection({
+const db = mysql.createPool({    
     host     : 'us-cdbr-iron-east-05.cleardb.net',
     user     : 'b2a20be38fef59',
     password : '74b6ec4b',
@@ -36,10 +38,15 @@ const db = mysql.createConnection({
 });
 
 // Connect
-db.connect(err => {
-    if(err) throw err;
-    console.log('MySql Connected...');
-});
+// db.connect(err => {
+//     if(err) throw err;
+//     console.log('MySql Connected...');
+// });
+// db.getConnection((err, connection) => {
+//     if (err) throw err;
+
+//     connection.query()
+// })
 
 // OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
 //              ARE ALREADY CREATED
@@ -160,7 +167,11 @@ app.post('/edit/:username', function(req, res) {
     let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `age` = '" + age + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `goal_weight` = '" + goal_weight + "', `activity` = '" + activity + "', `diet` = '" + diet + "', `allergy1` = '" + allergy1 + "', `allergy2` = '" + allergy2 + "', `allergy3` = '" + allergy3 + "', `allergy4` = '" + allergy4 + "', `allergy5` = '" + allergy5 + "', `calories` = '" + calories + "', `units` = '" + units + "' WHERE `users`.`username` = '" + username + "';";
     db.query(query, (err, result) => {
         if (err) {
-            return res.status(500).send(err);
+            // return res.status(500).send(err);
+            res.json(err);
+        }
+        else {
+            res.json({ "status" : "success" })
         }
     });
 });
@@ -171,7 +182,11 @@ app.get('/delete/:username', function(req, res) {
     let deleteUserQuery = 'DELETE FROM users WHERE username = "' + username + '";';
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
-            return res.status(500).send(err);
+            // return res.status(500).send(err);
+            res.json(err);
+        }
+        else {
+            res.json({ "status" : "success" })
         }
     });
 });
@@ -240,10 +255,6 @@ app.get('/log_in/:username', function(req, res) {
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             res.json(err);
-            // return res.status(500).send(err)
-        }
-        else {
-            res.json("deleted")
         }
     });
     let username = req.params.username;
@@ -253,23 +264,23 @@ app.get('/log_in/:username', function(req, res) {
             res.json({ "status" : "failed" })
         }
         else {
-            // res.json({ "status" : "success" })
+            res.json({ "status" : "success" })
         }
     });
 });
 
 //log out current user
 app.get('/log_out', (req, res) => {
-
+    res.json("log out")
     let deleteUserQuery = "DELETE FROM heroku_e96bd86a9e3395b.current_user;";    
     // res.json("in query")
     db.query(deleteUserQuery, (err, result) => {
         
         if (err) {
-            res.json(err);
+            // res.json(err);
         }
         else {
-            res.json("deleted")
+            // res.json("deleted")
         }
     });
 });

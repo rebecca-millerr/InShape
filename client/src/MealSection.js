@@ -2,7 +2,6 @@ import React from 'react';
 
 import './MealSection.css';
 import Ingredient from './Ingredient';
-import Instruction from './Instruction';
 
 class MealSection extends React.Component {
 
@@ -10,41 +9,67 @@ class MealSection extends React.Component {
 
         const ingredients = this.props.data.ingredients.map(ingredient =>
             <Ingredient
-                key = {ingredient.name}
+                key = {ingredient.name + Math.random()}
                 name = {ingredient.name}
                 amount = {ingredient.amount}
                 unit = {ingredient.unit}
             />);
 
-        const noHTML = this.props.data.instructions.replace(/<[^>]*>?/gm, '');
-        const sentences  = noHTML.split('.');
-
-        const instructions = sentences.map(sentence => 
-            <Instruction
-                key = {sentence}
-                text = {sentence}
-            />)
-        // const noHTML = words.filter((value, index, arr) => {
-        //     return value !== '<ol>' && value !== '</ol>' && value !== '<li>'
-        //            && value !== '</li>' && value !== ''
-        // })
-
         return(
             <div className = "MealSection">
-                <h2 className = "MealTitle">{this.props.data.name}</h2>
+                <div className = "MealTopInfo">
+                    <img className = "MealImage" src = {this.props.data.imageSource} alt = {this.props.data.name} />
+                    <h2 className = "MealTitle">{this.props.data.name}</h2>
+                    <div className = "MealText">
+                        <div className = "LineContainer"> 
+                            <p className = "ShortLine">
+                                <b>Prep Time: </b>
+                                {this.props.data.prepTime} minutes
+                            </p>
+                        </div>
+                        <div className = "LineContainer">
+                            <p className = "ShortLine">
+                                <b>Servings: </b>
+                                {this.props.data.servings}
+                            </p>
+                        </div>
+                        <div className = "LineContainer">
+                            <p className = "ShortLine">
+                                <b>Calories: </b>
+                                {this.props.data.calories}
+                            </p>
+                        </div>
+                        <div className = "LineContainer">
+                            <p className = "ShortLine">
+                                <b>Percent Carbs: </b>
+                                {this.props.data.percentCarbs}%
+                            </p>
+                        </div>
+                        <div className = "LineContainer">
+                            <p className = "ShortLine">
+                                <b>Percent Fat: </b>
+                                {this.props.data.percentFat}%
+                            </p>
+                        </div>
+                        <div className = "LineContainer">
+                            <p className = "ShortLine">
+                                <b>Percent Protein: </b>
+                                {this.props.data.percentProtein}%
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <div className = "MealText">
-                    <p className = "ShortLine"><b>Prep Time: </b>{this.props.data.prepTime} minutes</p>
-                    <p className = "ShortLine"><b>Percent Carbs: </b>{this.props.data.percentCarbs}%</p>
-                    <p className = "ShortLine"><b>Percent Fat: </b>{this.props.data.percentFat}%</p>
-                    <p className = "ShortLine"><b>Percent Protein: </b>{this.props.data.percentProtein}%</p>
                     <hr className = "DividerLine"/>
                     <ul>{ingredients}</ul>
                     <hr className = "DividerLine"/>
-                    <ol>{instructions}</ol>
+                    <div dangerouslySetInnerHTML={{ __html: this.props.data.instructions}} />
                 </div>
             </div>
         )
     }
 }
+
+// <ol>{instructions}</ol>
 
 export default MealSection;

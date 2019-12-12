@@ -157,6 +157,7 @@ class SignUp extends React.Component {
         }
 
         let height, currWeight, goalWeight;
+
         if ( this.state.units === 'metric' ) {
             height     = this.state.height / 2.54;
             currWeight = this.state.currWeight * 2.205;
@@ -196,13 +197,12 @@ class SignUp extends React.Component {
         }
 
         const hashedPassword = passwordHash.generate(this.state.password);
-        console.log(passwordHash.verify(this.state.password, hashedPassword));
 
         let allergies = new Array(5);
 
         // copy state allergies into new array
         for ( let i = 0; i < this.state.allergies.length; i++ ) {
-            allergies[i] = this.state.allergies[i];
+            allergies[i] = this.state.allergies[i].allergy;
         }
 
         // fill extra slots with null
@@ -210,6 +210,29 @@ class SignUp extends React.Component {
             if ( allergies.length <= i ) {
                 allergies[i] = null;
             }
+        }
+
+        // parsing activity
+        let activity;
+
+        switch(this.state.activity) {
+            case 'veryLight':
+                activity = 1;
+                break;
+            case 'light':
+                activity = 2;
+                break;
+            case 'moderate':
+                activity = 3;
+                break;
+            case 'heavy':
+                activity = 4;
+                break;
+            case 'veryHeavy':
+                activity = 5;
+                break;
+            default:
+                break;
         }
 
         const response = await fetch('/add', {
@@ -224,7 +247,7 @@ class SignUp extends React.Component {
                 height      : height,
                 weight      : currWeight,
                 goal_weight : goalWeight,
-                activity    : this.state.activity,
+                activity    : activity,
                 diet        : this.state.diet,
                 allergy1    : allergies[0],
                 allergy2    : allergies[1],
@@ -239,18 +262,13 @@ class SignUp extends React.Component {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response)
         const json = await response.json();
-        console.log(json);
 
         if ( json.status === 'failed' ) {
             return;
         }
         else if ( json.status === 'success' ) {
-            const login = await fetch('/log_in/' + this.state.username);
-            console.log(login);
-            const text = await login.json();
-            console.log(text)
+            await fetch('/log_in/' + this.state.username);
 
             this.setState({
                 firstName  : "",
@@ -583,6 +601,7 @@ class SignUp extends React.Component {
                                     value = "veryLight"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "veryLight"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -598,6 +617,7 @@ class SignUp extends React.Component {
                                     value = "light"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "light"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -613,6 +633,7 @@ class SignUp extends React.Component {
                                     value = "moderate"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "moderate"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -628,6 +649,7 @@ class SignUp extends React.Component {
                                     value = "heavy"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "heavy"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -643,6 +665,7 @@ class SignUp extends React.Component {
                                     value = "veryHeavy"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
+                                    checked = {this.state.activity === "veryHeavy"}
                                     required
                                 /> 
                                 <div className = "NoCheckButton"></div>
@@ -671,7 +694,7 @@ class SignUp extends React.Component {
                                 <input
                                     type = "radio"
                                     name = "diet"
-                                    value = "glutenFree"
+                                    value = "gluten-free"
                                     onChange = {this.handleChange}
                                     className = "RadioButton"
                                     required

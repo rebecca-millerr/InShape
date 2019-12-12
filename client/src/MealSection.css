@@ -1,8 +1,24 @@
+.DividerLine {
+    border: 1px solid #000;
+}
+
+.LineContainer {
+    height: 1.5em;
+    position: relative;
+}
+
+.MealImage {
+    position: relative;
+    height: 10em;
+    width: 100%;
+}
+
 .MealSection {
+    position: relative;
+    display: inline-block;
     text-align: center;
     box-sizing: border-box;
     vertical-align: top;
-    display: inline-block;
     margin: 1%;
     padding: 2%;
     border-radius: 20px;
@@ -10,19 +26,22 @@
     background-color: #c1d5f5;
 }
 
+.MealText {
+    position: relative;
+    width: 100%;
+    text-align: left;
+}
+
 .MealTitle {
 	font-weight: 400;
 }
 
+.MealTopInfo {
+    min-height: 25em;
+    position: relative;
+}
+
 .ShortLine {
-	line-height: 0.5em;
-}
-
-.MealText {
-	width: 100%;
-	text-align: left;
-}
-
-.DividerLine {
-	border: 1px solid #000;
+    display: inline;
+    position: relative;
 }

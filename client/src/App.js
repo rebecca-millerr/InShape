@@ -18,11 +18,12 @@ import EditUser from './EditUser';
 import './App.css';
 
 class App extends React.Component {
+  
   constructor(props) {
     super(props)
 
     this.state = {
-      data     : null, // IDK
+      data     : null, 
       loggedIn : false,
       currUser : null
     }
@@ -35,38 +36,32 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    
     this.getCurrentUser();
   }
 
   async getCurrentUser() {
 
     const response = await fetch('/current');
-    console.log(response);
-    const data  = await response.json();
-    console.log(data);
+    const data     = await response.json();
     
     if ( data && !data[0] ) {
-      console.log("still legit")
       this.setState({
         currUser : data.username
       })
     }
     else if ( data[0] ) {
-      console.log("legit")
       this.setState({
         currUser : data[0].username
       })
     }
     
-
     if ( !this.state.currUser || this.state.currUser === '---' ) {
-      console.log('nope')
       this.setState({
         loggedIn : false
       })
     }
     else {
-      console.log('yep')
       this.setState({
         loggedIn : true
       })
@@ -74,18 +69,15 @@ class App extends React.Component {
   }
 
   logIn() {
-    console.log('in log in')
+
     this.setState({
       loggedIn : true
     });
   }
 
   async logOut() {
-    console.log('in log out')
-    const response = await fetch('/log_out');
-    console.log(response)
-    const text = await response.json()
-    console.log(text)
+
+    await fetch('/log_out');
     this.getCurrentUser();
   }
 
@@ -96,6 +88,7 @@ class App extends React.Component {
   render() {
 
     const navItems = new Array(5);
+    
     if ( this.state.loggedIn ) {
       navItems[0] = ({
         num               : 1,
@@ -128,7 +121,7 @@ class App extends React.Component {
       navItems[4] = ({
         num               : 5,
         text              : 'Log Out',
-        url               : '#',
+        url               : '',
         changePermissions : this.logOut,
         className         : 'LogInOutLink',
         dropdown          : true,
@@ -160,8 +153,8 @@ class App extends React.Component {
     }
 
     const navLinks = navItems.map(link => {
-      if ( link ) {
-        return <NavLink
+      return link ?
+        <NavLink
           key               = {link.num}
           text              = {link.text}
           url               = {link.url}
@@ -170,8 +163,7 @@ class App extends React.Component {
           dropdownText      = {link.dropdownText}
           dropdownLink      = {link.dropdownLink}
           changePermissions = {link.changePermissions}
-        />
-      }
+        /> : null;
     });
 
     return (
@@ -191,13 +183,17 @@ class App extends React.Component {
                 <LogIn validate = {this.logIn} />
               </Route>
               <Route path = "/edit-user">
-                <EditUser username = {this.state.username} exit = {this.logOut} />
+                <EditUser username = {this.state.currUser} exit = {this.logOut} />
               </Route>
               <Route path = "/meals">
-                <Meals username = {this.state.username} />
+                <Meals username = {this.state.currUser} />
               </Route>
-              <Route path = "/exercises" component = {Exercises} />
-              <Route path = "/contact" component = {Contact} />
+              <Route path = "/exercises">
+                <Exercises username = {this.state.currUser} />
+              </Route>
+              <Route path = "/contact">
+                <Contact username = {this.state.currUser} />
+              </Route>
             </Switch>
           </Router>
       </div>
