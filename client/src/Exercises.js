@@ -28,24 +28,35 @@ class Exercises extends React.Component {
             shouldersData : null,
 
             finished : false,
+            loggedIn : false,
 
             exercises : null,
             triggered : false
         }
 
-        this.fetchAbs = this.fetchAbs.bind(this);
-        this.fetchArms = this.fetchArms.bind(this);
-        this.fetchBack = this.fetchBack.bind(this);
-        this.fetchCalves = this.fetchCalves.bind(this);
-        this.fetchChest = this.fetchChest.bind(this);
-        this.fetchLegs = this.fetchLegs.bind(this);
+        this.fetchAbs       = this.fetchAbs.bind(this);
+        this.fetchArms      = this.fetchArms.bind(this);
+        this.fetchBack      = this.fetchBack.bind(this);
+        this.fetchCalves    = this.fetchCalves.bind(this);
+        this.fetchChest     = this.fetchChest.bind(this);
+        this.fetchLegs      = this.fetchLegs.bind(this);
         this.fetchShoulders = this.fetchShoulders.bind(this);
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChange  = this.handleChange.bind(this);
         this.findExercises = this.findExercises.bind(this);
     }
 
     async componentDidMount() {
+
+        setTimeout(async () => {
+            await this.setState({
+                loggedIn : this.props.username === '---' ? false : true
+            })
+        }, 2000);
+
+        if ( !this.state.loggedIn ) {
+            return;
+        }
 
         await this.fetchAbs();
         await this.fetchArms();
@@ -381,6 +392,16 @@ class Exercises extends React.Component {
 
     render() {
 
+        if ( !this.state.loggedIn ) {
+            return (
+                <div className = "ExercisesPage">
+                    <p className = "LoggedOutMessage">
+                        Log in to see this page!
+                    </p>
+                </div>
+            )
+        }
+
         let loading = 'Loading...';
 
         let loadingStyle;
@@ -498,6 +519,5 @@ class Exercises extends React.Component {
         )
     }
 }
-
 
 export default Exercises;

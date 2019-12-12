@@ -82,7 +82,7 @@
     box-sizing: border-box;
     width: 300%;
     padding: 18%;
-    z-index: 99;
+    z-index: 99999;
     background-color: #fff;
     border-radius: 5px;
     font-weight: 400;
@@ -203,6 +203,10 @@
 .SignUpPage {
     margin: 6%;
     text-align: center;
+}
+
+.SignUpReminder {
+    font-weight: 400;
 }
 
 .SubmitButton {

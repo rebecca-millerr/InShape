@@ -11,68 +11,14 @@ app.set('port', process.env.port || port); // set express to use this port
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); // parse form data client
 
-// TESTS for server side passing data to front end
-
-// app.get('/', (req, res) => {
-//     res.json({"home" : "success"});
-// })
-
-app.get('/api', (req, res) => {
-    res.json({"test" : "success"})
-})
-
-app.post('/testpost', (req, res) => {
-    console.log(req.body)
-    res.json(req.body);
-})
-
 // create connection to database
 // the mysql.createConnection function takes in a configuration object which contains host, user, password and the database name.
-const db = mysql.createConnection({
+const db = mysql.createPool({    
     host     : 'us-cdbr-iron-east-05.cleardb.net',
     user     : 'b2a20be38fef59',
     password : '74b6ec4b',
     database : 'heroku_e96bd86a9e3395b'
 });
-
-// Connect
-db.connect(err => {
-    if(err) throw err;
-    console.log('MySql Connected...');
-});
-
-// OMIT THE COMMENTED CODE BELOW IF DATABASE & TABLE 
-//              ARE ALREADY CREATED
-
-// Create DB
-// app.get('/createdb', (req, res) => {
-//     let sql = 'CREATE DATABASE inshape';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Database created...');
-//     });
-// });
-
-// Create users table
-// app.get('/createuserstable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.users (username varchar(255) NOT NULL, first_name varchar(255) NULL, last_name varchar(255) NULL, email varchar(255) NULL, password varchar(255) NULL, age int(11) NULL, sex char(1) NULL, height int(11) NULL, weight int(11) NULL, goal_weight int(11) NULL, activity int(1) NULL, diet varchar(255) NULL, allergy1 varchar(255) NULL, allergy2 varchar(255) NULL, allergy3 varchar(255) NULL, allergy4 varchar(255) NULL, allergy5 varchar(255) NULL, calories int(11) NULL, units varchar(255) NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Users table created...');
-//     });
-// });
-
-// Create current table
-// app.get('/createcurrenttable', (req, res) => {
-//     let sql = 'CREATE TABLE inshape.current_user (username varchar(255) NOT NULL, PRIMARY KEY (`username`)) ENGINE=InnoDB DEFAULT CHARSET=latin1';
-//     db.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result);
-//         res.send('Current table created...');
-//     });
-// });
 
 // add user
 app.post('/add', (req, res) => {
@@ -160,7 +106,10 @@ app.post('/edit/:username', function(req, res) {
     let query = "UPDATE `users` SET `first_name` = '" + first_name + "', `last_name` = '" + last_name + "', `email` = '" + email + "', `password` = '" + password + "', `age` = '" + age + "', `sex` = '" + sex + "', `height` = '" + height + "', `weight` = '" + weight + "', `goal_weight` = '" + goal_weight + "', `activity` = '" + activity + "', `diet` = '" + diet + "', `allergy1` = '" + allergy1 + "', `allergy2` = '" + allergy2 + "', `allergy3` = '" + allergy3 + "', `allergy4` = '" + allergy4 + "', `allergy5` = '" + allergy5 + "', `calories` = '" + calories + "', `units` = '" + units + "' WHERE `users`.`username` = '" + username + "';";
     db.query(query, (err, result) => {
         if (err) {
-            return res.status(500).send(err);
+            res.json(err);
+        }
+        else {
+            res.json({ "status" : "success" })
         }
     });
 });
@@ -171,7 +120,10 @@ app.get('/delete/:username', function(req, res) {
     let deleteUserQuery = 'DELETE FROM users WHERE username = "' + username + '";';
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
-            return res.status(500).send(err);
+            res.json(err);
+        }
+        else {
+            res.json({ "status" : "success" })
         }
     });
 });
@@ -184,15 +136,12 @@ app.get('/info/:username', function(req, res) {
         
         if (err) {
             res.json(err);
-            // res.json("1")
         }
         if (result.length === 0) {
-            // res.json("2")
             res.json({ "status" : "failed" });
         }
         else
             res.json(result);
-            // res.json("3")
     });
 });
 
@@ -202,37 +151,15 @@ app.get('/current', (req, res) => {
     db.query(usernameQuery, (err, result) => {
         if (err) {
             res.json(err);
-            // res.json("hi")
         }
         else if (result.length === 0) {
-            console.log('no user')
             res.json({ "username" : "---" });
         }
         else {
-            console.log(result)
             res.json(result);
         }
     });
 });
-
-// app.post('/current', (req, res) => {
-//     let usernameQuery = "SELECT username FROM heroku_e96bd86a9e3395b.current_user;";
-//     // res.json("test")
-//     db.query(usernameQuery, (err, result) => {
-//         if (err) {
-//             console.log(err)
-//             res.json(err);
-//         }
-//         else if (result.length === 0) {
-//             console.log('no user')
-//             res.json(/*{ "username" : "---" }*/);
-//         }
-//         else {
-//             console.log(result)
-//             res.json(result);
-//         }
-//     });
-// });
 
 //log in current user
 app.get('/log_in/:username', function(req, res) {
@@ -240,10 +167,6 @@ app.get('/log_in/:username', function(req, res) {
     db.query(deleteUserQuery, (err, result) => {
         if (err) {
             res.json(err);
-            // return res.status(500).send(err)
-        }
-        else {
-            res.json("deleted")
         }
     });
     let username = req.params.username;
@@ -253,23 +176,20 @@ app.get('/log_in/:username', function(req, res) {
             res.json({ "status" : "failed" })
         }
         else {
-            // res.json({ "status" : "success" })
+            res.json({ "status" : "success" })
         }
     });
 });
 
 //log out current user
 app.get('/log_out', (req, res) => {
-
     let deleteUserQuery = "DELETE FROM heroku_e96bd86a9e3395b.current_user;";    
-    // res.json("in query")
     db.query(deleteUserQuery, (err, result) => {
-        
         if (err) {
             res.json(err);
         }
         else {
-            res.json("deleted")
+            res.json({ "status" : "success" })
         }
     });
 });
@@ -278,87 +198,3 @@ app.get('/log_out', (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
-
-
-
-
-//
-// UNIT TESTS BELOW
-//
-
-// var request = require('request');
-
-// function addUser(postData){
-//         var clientServerOptions = {
-//             uri: 'http://localhost:5000/add',
-//             body: JSON.stringify(postData),
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         }
-//         request(clientServerOptions, function (error) {
-//             console.log(error);
-//             return;
-//         });
-//     }
-
-// function editUser(postData){
-//     var clientServerOptions = {
-//         uri: 'http://localhost:5000/edit/jackson',
-//         body: JSON.stringify(postData),
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         }
-//     }
-//     request(clientServerOptions, function (error, response) {
-//         console.log(error);
-//         return;
-//     });
-// }      
-
-// function deleteUser(){
-//     request('http://localhost:5000/delete/jackson', function (error, response) {
-//         console.log(error);
-//         return;
-//     });
-// }
-
-// function infoUser(){
-//     request('http://localhost:5000/info/jackson', function (error, response) {
-//         console.log(error,response.body);
-//         return;
-//     });
-// }
-
-// function currentUser(){
-//     request('http://localhost:5000/current', function (error, response) {
-//         console.log(error,response.body);
-//         return;
-//     });
-// }
-
-// function loginUser(){
-//     request('http://localhost:5000/log_in/jackson', function (error, response) {
-//         console.log(error);
-//         return;
-//     });
-// }
-
-// function logoutUser(){
-//     request('http://localhost:5000/log_out', function (error, response) {
-//         console.log(error);
-//         return;
-//     });
-// }
-
-// addUser( { username: "jackson", first_name: "jackson", last_name: "george", email: "blabla", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 190, units: "imperial" });
-// editUser({ username: "jackson", first_name: "jo", last_name: "mayk", email: "yoyoy", password: "yoks", age: 53, sex: 'm', height: 190, weight: 80, goal_weight: 90, activity: 4, diet: "karatay", allergy1: "peanut", allergy2: "yok", allergy3: "george", allergy4: "", allergy5: "", calories: 120, units: "metric" });
-// infoUser();
-// deleteUser();
-
-// loginUser();
-// currentUser();
-// logoutUser();
-// currentUser();
